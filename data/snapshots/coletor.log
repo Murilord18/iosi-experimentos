@@ -1,0 +1,4 @@
+2026-10-16 19:00:01,604 [INFO] Coleta 'noite' iniciada em 2026-10-16 19:00:01.604350-03:00
+2026-10-16 19:00:02,088 [INFO]   BOVA11: 82 candles de 5m no pregao de 2026-10-16
+2026-10-16 19:00:02,353 [INFO]   BOVA11 2026-10-16: O=200.22 H=203.19 L=200.17 C=202.30 (barra diaria)
+2026-10-16 19:00:02,358 [INFO] Salvo: C:\Users\muril\OneDrive\Documentos\Murilo\Documentos\Faculdade\Aulas\Projeto de Pesquisa\IOSI-experimentos\data\snapshots\2026-10-16_19h.csv (83 linhas)

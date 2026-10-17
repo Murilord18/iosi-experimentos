@@ -1,0 +1,155 @@
+{
+  "amplitude": {
+    "alvo": "amplitude",
+    "modelo": "HAR+VIX_ols_log",
+    "tipo": "sklearn",
+    "features": [
+      "har_1d",
+      "har_5d",
+      "har_22d",
+      "vix_nivel_t1"
+    ],
+    "transformacao_log": true,
+    "saida": "valor",
+    "janela_treino": "expansiva",
+    "criterio": "mae_pp (periodo completo)",
+    "tambem_vence_em": {
+      "completo": true,
+      "ultimos_2_anos": false,
+      "sem_05_10_2026": true
+    },
+    "n_treino": 3399,
+    "treino_de": "2009-06-03",
+    "treino_ate": "2026-10-16",
+    "metricas": [
+      {
+        "periodo": "completo",
+        "n": 2649,
+        "mae_pp": 0.48696,
+        "spearman": 0.57793,
+        "ganho_mae_vs_har_5d (baseline)_%": 4.949224,
+        "ganho_mae_vs_har_22d (baseline)_%": 8.257023
+      },
+      {
+        "periodo": "ultimos_2_anos",
+        "n": 497,
+        "mae_pp": 0.42424,
+        "spearman": 0.323457,
+        "ganho_mae_vs_har_5d (baseline)_%": 6.544694,
+        "ganho_mae_vs_har_22d (baseline)_%": 2.738252
+      },
+      {
+        "periodo": "sem_05_10_2026",
+        "n": 2648,
+        "mae_pp": 0.486978,
+        "spearman": 0.577811,
+        "ganho_mae_vs_har_5d (baseline)_%": 4.962611,
+        "ganho_mae_vs_har_22d (baseline)_%": 8.253209
+      }
+    ]
+  },
+  "lateral": {
+    "alvo": "lateral",
+    "modelo": "logit_HAR+VIX | movel_5a",
+    "tipo": "sklearn",
+    "features": [
+      "har_1d",
+      "har_5d",
+      "har_22d",
+      "vix_nivel_t1"
+    ],
+    "transformacao_log": false,
+    "saida": "probabilidade",
+    "janela_treino": "movel 5 anos",
+    "criterio": "brier (periodo completo)",
+    "tambem_vence_em": {
+      "completo": true,
+      "ultimos_2_anos": false,
+      "sem_05_10_2026": true
+    },
+    "n_treino": 1248,
+    "treino_de": "2021-10-18",
+    "treino_ate": "2026-10-16",
+    "metricas": [
+      {
+        "periodo": "completo",
+        "n": 2549,
+        "taxa_real": 0.680267,
+        "brier": 0.20607,
+        "ganho_brier_vs_taxa_252d (baseline)_%": 3.316089,
+        "auc": 0.646927,
+        "precisao_p>=0.5": 0.697071,
+        "frac_p>=0.5": 0.937623,
+        "taxa_real_top20%": 0.811765
+      },
+      {
+        "periodo": "ultimos_2_anos",
+        "n": 497,
+        "taxa_real": 0.77666,
+        "brier": 0.175892,
+        "ganho_brier_vs_taxa_252d (baseline)_%": -0.182162,
+        "auc": 0.527611,
+        "precisao_p>=0.5": 0.777551,
+        "frac_p>=0.5": 0.985915,
+        "taxa_real_top20%": 0.8
+      },
+      {
+        "periodo": "sem_05_10_2026",
+        "n": 2548,
+        "taxa_real": 0.680141,
+        "brier": 0.206124,
+        "ganho_brier_vs_taxa_252d (baseline)_%": 3.3178,
+        "auc": 0.646797,
+        "precisao_p>=0.5": 0.696944,
+        "frac_p>=0.5": 0.937598,
+        "taxa_real_top20%": 0.811765
+      }
+    ]
+  },
+  "gap": {
+    "alvo": "gap",
+    "modelo": "ridge_EWZ",
+    "tipo": "sklearn",
+    "features": [
+      "var_on_EWZ"
+    ],
+    "transformacao_log": false,
+    "saida": "valor",
+    "janela_treino": "expansiva",
+    "criterio": "mae_pp (periodo completo)",
+    "tambem_vence_em": {
+      "completo": true,
+      "ultimos_2_anos": true,
+      "sem_05_10_2026": false
+    },
+    "n_treino": 492,
+    "treino_de": "2024-10-24",
+    "treino_ate": "2026-10-16",
+    "metricas": [
+      {
+        "periodo": "completo",
+        "n": 260,
+        "mae_pp": 0.477453,
+        "ganho_mae_vs_zero_%": 12.980078,
+        "r2_oos": 0.418034,
+        "acerto_direcao": 0.688
+      },
+      {
+        "periodo": "ultimos_2_anos",
+        "n": 260,
+        "mae_pp": 0.477453,
+        "ganho_mae_vs_zero_%": 12.980078,
+        "r2_oos": 0.418034,
+        "acerto_direcao": 0.688
+      },
+      {
+        "periodo": "sem_05_10_2026",
+        "n": 259,
+        "mae_pp": 0.470194,
+        "ganho_mae_vs_zero_%": 10.119483,
+        "r2_oos": 0.233436,
+        "acerto_direcao": 0.686747
+      }
+    ]
+  }
+}

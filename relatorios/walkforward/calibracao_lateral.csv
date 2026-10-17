@@ -1,0 +1,136 @@
+modelo,periodo,quintil,prob_media,taxa_real,n
+taxa_252d (baseline),completo,1,0.563681,0.615686,510
+taxa_252d (baseline),completo,2,0.607087,0.627451,510
+taxa_252d (baseline),completo,3,0.657103,0.652259,509
+taxa_252d (baseline),completo,4,0.724551,0.705882,510
+taxa_252d (baseline),completo,5,0.821226,0.800000,510
+logit_HAR+VIX | expansiva,completo,1,0.505561,0.498039,510
+logit_HAR+VIX | expansiva,completo,2,0.617039,0.629412,510
+logit_HAR+VIX | expansiva,completo,3,0.663172,0.693517,509
+logit_HAR+VIX | expansiva,completo,4,0.706306,0.766667,510
+logit_HAR+VIX | expansiva,completo,5,0.752219,0.813725,510
+logit_HAR+VIX | movel_5a,completo,1,0.491820,0.509804,510
+logit_HAR+VIX | movel_5a,completo,2,0.613914,0.623529,510
+logit_HAR+VIX | movel_5a,completo,3,0.664306,0.685658,509
+logit_HAR+VIX | movel_5a,completo,4,0.716901,0.770588,510
+logit_HAR+VIX | movel_5a,completo,5,0.780083,0.811765,510
+logit_todas | expansiva,completo,1,0.500467,0.500000,510
+logit_todas | expansiva,completo,2,0.616162,0.639216,510
+logit_todas | expansiva,completo,3,0.663177,0.673870,509
+logit_todas | expansiva,completo,4,0.706778,0.770588,510
+logit_todas | expansiva,completo,5,0.754391,0.817647,510
+logit_todas | movel_5a,completo,1,0.482513,0.503922,510
+logit_todas | movel_5a,completo,2,0.611844,0.629412,510
+logit_todas | movel_5a,completo,3,0.664793,0.677800,509
+logit_todas | movel_5a,completo,4,0.719181,0.772549,510
+logit_todas | movel_5a,completo,5,0.785486,0.817647,510
+hgb_todas | expansiva,completo,1,0.465869,0.539216,510
+hgb_todas | expansiva,completo,2,0.595800,0.643137,510
+hgb_todas | expansiva,completo,3,0.658915,0.654224,509
+hgb_todas | expansiva,completo,4,0.730901,0.747059,510
+hgb_todas | expansiva,completo,5,0.822619,0.817647,510
+hgb_todas | movel_5a,completo,1,0.441835,0.531373,510
+hgb_todas | movel_5a,completo,2,0.586423,0.647059,510
+hgb_todas | movel_5a,completo,3,0.670407,0.701375,509
+hgb_todas | movel_5a,completo,4,0.747678,0.721569,510
+hgb_todas | movel_5a,completo,5,0.846021,0.800000,510
+taxa_media | expansiva,completo,1,0.610668,0.643137,510
+taxa_media | expansiva,completo,2,0.620050,0.631373,510
+taxa_media | expansiva,completo,3,0.623937,0.640472,509
+taxa_media | expansiva,completo,4,0.632139,0.705882,510
+taxa_media | expansiva,completo,5,0.655915,0.780392,510
+taxa_media | movel_5a,completo,1,0.600696,0.633333,510
+taxa_media | movel_5a,completo,2,0.619786,0.668627,510
+taxa_media | movel_5a,completo,3,0.630591,0.618861,509
+taxa_media | movel_5a,completo,4,0.644441,0.705882,510
+taxa_media | movel_5a,completo,5,0.707411,0.774510,510
+taxa_252d (baseline),ultimos_2_anos,1,0.774802,0.780000,100
+taxa_252d (baseline),ultimos_2_anos,2,0.791286,0.757576,99
+taxa_252d (baseline),ultimos_2_anos,3,0.803511,0.797980,99
+taxa_252d (baseline),ultimos_2_anos,4,0.823874,0.777778,99
+taxa_252d (baseline),ultimos_2_anos,5,0.866310,0.770000,100
+logit_HAR+VIX | expansiva,ultimos_2_anos,1,0.641552,0.760000,100
+logit_HAR+VIX | expansiva,ultimos_2_anos,2,0.708635,0.747475,99
+logit_HAR+VIX | expansiva,ultimos_2_anos,3,0.732565,0.808081,99
+logit_HAR+VIX | expansiva,ultimos_2_anos,4,0.751098,0.767677,99
+logit_HAR+VIX | expansiva,ultimos_2_anos,5,0.770748,0.800000,100
+logit_HAR+VIX | movel_5a,ultimos_2_anos,1,0.647079,0.760000,100
+logit_HAR+VIX | movel_5a,ultimos_2_anos,2,0.739223,0.767677,99
+logit_HAR+VIX | movel_5a,ultimos_2_anos,3,0.767084,0.777778,99
+logit_HAR+VIX | movel_5a,ultimos_2_anos,4,0.791302,0.777778,99
+logit_HAR+VIX | movel_5a,ultimos_2_anos,5,0.821547,0.800000,100
+logit_todas | expansiva,ultimos_2_anos,1,0.638433,0.780000,100
+logit_todas | expansiva,ultimos_2_anos,2,0.706659,0.737374,99
+logit_todas | expansiva,ultimos_2_anos,3,0.734182,0.797980,99
+logit_todas | expansiva,ultimos_2_anos,4,0.753951,0.787879,99
+logit_todas | expansiva,ultimos_2_anos,5,0.775001,0.780000,100
+logit_todas | movel_5a,ultimos_2_anos,1,0.640996,0.750000,100
+logit_todas | movel_5a,ultimos_2_anos,2,0.736907,0.808081,99
+logit_todas | movel_5a,ultimos_2_anos,3,0.767998,0.767677,99
+logit_todas | movel_5a,ultimos_2_anos,4,0.796744,0.777778,99
+logit_todas | movel_5a,ultimos_2_anos,5,0.829265,0.780000,100
+hgb_todas | expansiva,ultimos_2_anos,1,0.601041,0.710000,100
+hgb_todas | expansiva,ultimos_2_anos,2,0.692339,0.797980,99
+hgb_todas | expansiva,ultimos_2_anos,3,0.751691,0.828283,99
+hgb_todas | expansiva,ultimos_2_anos,4,0.799602,0.777778,99
+hgb_todas | expansiva,ultimos_2_anos,5,0.864566,0.770000,100
+hgb_todas | movel_5a,ultimos_2_anos,1,0.618228,0.770000,100
+hgb_todas | movel_5a,ultimos_2_anos,2,0.713020,0.747475,99
+hgb_todas | movel_5a,ultimos_2_anos,3,0.764147,0.757576,99
+hgb_todas | movel_5a,ultimos_2_anos,4,0.817767,0.808081,99
+hgb_todas | movel_5a,ultimos_2_anos,5,0.885736,0.800000,100
+taxa_media | expansiva,ultimos_2_anos,1,0.647519,0.760000,100
+taxa_media | expansiva,ultimos_2_anos,2,0.651678,0.808081,99
+taxa_media | expansiva,ultimos_2_anos,3,0.657385,0.838384,99
+taxa_media | expansiva,ultimos_2_anos,4,0.660852,0.727273,99
+taxa_media | expansiva,ultimos_2_anos,5,0.663768,0.750000,100
+taxa_media | movel_5a,ultimos_2_anos,1,0.667901,0.760000,100
+taxa_media | movel_5a,ultimos_2_anos,2,0.690512,0.808081,99
+taxa_media | movel_5a,ultimos_2_anos,3,0.718133,0.838384,99
+taxa_media | movel_5a,ultimos_2_anos,4,0.731544,0.707071,99
+taxa_media | movel_5a,ultimos_2_anos,5,0.734417,0.770000,100
+taxa_252d (baseline),sem_05_10_2026,1,0.563681,0.615686,510
+taxa_252d (baseline),sem_05_10_2026,2,0.607038,0.626719,509
+taxa_252d (baseline),sem_05_10_2026,3,0.657053,0.652941,510
+taxa_252d (baseline),sem_05_10_2026,4,0.724494,0.705305,509
+taxa_252d (baseline),sem_05_10_2026,5,0.821226,0.800000,510
+logit_HAR+VIX | expansiva,sem_05_10_2026,1,0.505561,0.498039,510
+logit_HAR+VIX | expansiva,sem_05_10_2026,2,0.616987,0.630648,509
+logit_HAR+VIX | expansiva,sem_05_10_2026,3,0.663175,0.692157,510
+logit_HAR+VIX | expansiva,sem_05_10_2026,4,0.706351,0.766208,509
+logit_HAR+VIX | expansiva,sem_05_10_2026,5,0.752219,0.813725,510
+logit_HAR+VIX | movel_5a,sem_05_10_2026,1,0.491820,0.509804,510
+logit_HAR+VIX | movel_5a,sem_05_10_2026,2,0.613859,0.622790,509
+logit_HAR+VIX | movel_5a,sem_05_10_2026,3,0.664262,0.686275,510
+logit_HAR+VIX | movel_5a,sem_05_10_2026,4,0.716857,0.770138,509
+logit_HAR+VIX | movel_5a,sem_05_10_2026,5,0.780083,0.811765,510
+logit_todas | expansiva,sem_05_10_2026,1,0.500467,0.500000,510
+logit_todas | expansiva,sem_05_10_2026,2,0.616110,0.638507,509
+logit_todas | expansiva,sem_05_10_2026,3,0.663148,0.674510,510
+logit_todas | expansiva,sem_05_10_2026,4,0.706822,0.770138,509
+logit_todas | expansiva,sem_05_10_2026,5,0.754391,0.817647,510
+logit_todas | movel_5a,sem_05_10_2026,1,0.482513,0.503922,510
+logit_todas | movel_5a,sem_05_10_2026,2,0.611786,0.630648,509
+logit_todas | movel_5a,sem_05_10_2026,3,0.664747,0.676471,510
+logit_todas | movel_5a,sem_05_10_2026,4,0.719125,0.772102,509
+logit_todas | movel_5a,sem_05_10_2026,5,0.785459,0.817647,510
+hgb_todas | expansiva,sem_05_10_2026,1,0.465869,0.539216,510
+hgb_todas | expansiva,sem_05_10_2026,2,0.595786,0.642436,509
+hgb_todas | expansiva,sem_05_10_2026,3,0.658982,0.652941,510
+hgb_todas | expansiva,sem_05_10_2026,4,0.730975,0.748527,509
+hgb_todas | expansiva,sem_05_10_2026,5,0.822619,0.817647,510
+hgb_todas | movel_5a,sem_05_10_2026,1,0.441835,0.531373,510
+hgb_todas | movel_5a,sem_05_10_2026,2,0.586336,0.648330,509
+hgb_todas | movel_5a,sem_05_10_2026,3,0.670393,0.698039,510
+hgb_todas | movel_5a,sem_05_10_2026,4,0.747755,0.722986,509
+hgb_todas | movel_5a,sem_05_10_2026,5,0.846021,0.800000,510
+taxa_media | expansiva,sem_05_10_2026,1,0.610668,0.643137,510
+taxa_media | expansiva,sem_05_10_2026,2,0.620046,0.630648,509
+taxa_media | expansiva,sem_05_10_2026,3,0.623933,0.641176,510
+taxa_media | expansiva,sem_05_10_2026,4,0.632119,0.705305,509
+taxa_media | expansiva,sem_05_10_2026,5,0.655870,0.780392,510
+taxa_media | movel_5a,sem_05_10_2026,1,0.600696,0.633333,510
+taxa_media | movel_5a,sem_05_10_2026,2,0.619772,0.667976,509
+taxa_media | movel_5a,sem_05_10_2026,3,0.630584,0.619608,510
+taxa_media | movel_5a,sem_05_10_2026,4,0.644403,0.705305,509
+taxa_media | movel_5a,sem_05_10_2026,5,0.707268,0.774510,510

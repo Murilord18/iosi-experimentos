@@ -1,0 +1,16 @@
+ativo,ticker,fechamento_anterior,idade_mediana_fech_ant_h,pregoes_com_preco,idade_mediana_9h_h,fracao_preco_fresco,desvio_var_overnight,usado
+IBOV,^BVSP,fechamento diario anterior,,490,15.0000,0.0000,0.0008,False
+EWZ,EWZ,fechamento diario anterior,,490,0.0000,0.9714,0.0094,True
+SP500,^GSPC,fechamento diario anterior,,490,15.0000,0.0000,0.0000,False
+NASDAQ,^IXIC,fechamento diario anterior,,490,14.0000,0.0000,0.0001,False
+RUSSELL2000,^RUT,fechamento diario anterior,,490,15.0000,0.0020,0.0002,False
+VIX,^VIX,fechamento diario anterior,,490,0.0000,0.9959,0.0564,True
+USDBRL,BRL=X,1h no fechamento B3 de D-1,0.0000,490,0.0000,0.9776,0.0018,True
+DXY,DX-Y.NYB,fechamento diario anterior,,490,0.0000,0.9796,0.0031,True
+EURBRL,EURBRL=X,1h no fechamento B3 de D-1,0.0000,490,0.0000,0.9735,0.0038,True
+GBPBRL,GBPBRL=X,1h no fechamento B3 de D-1,0.0000,490,0.0000,0.9735,0.0036,True
+USDJPY,JPY=X,1h no fechamento B3 de D-1,0.0000,490,0.0000,0.9980,0.0047,True
+EURUSD,EURUSD=X,1h no fechamento B3 de D-1,0.0000,490,0.0000,0.9980,0.0035,True
+ES_FUT,ES=F,fechamento diario anterior,,490,0.0000,0.9776,0.0064,True
+NQ_FUT,NQ=F,fechamento diario anterior,,490,0.0000,0.9776,0.0087,True
+BRENT_FUT,BZ=F,fechamento diario anterior,,490,0.0000,0.9776,0.0264,True

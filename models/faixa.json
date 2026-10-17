@@ -1,0 +1,59 @@
+{
+  "k_sup": 1.070889307989812,
+  "k_inf": 1.142464123806305,
+  "quantil_comum": 0.9003021148037079,
+  "cobertura_alvo": 0.8,
+  "cobertura_card": 0.7,
+  "cobertura_card_origem": "cobertura fora da amostra (maxima e minima dentro) com a faixa centrada na abertura ESPERADA, 2025-10-01 a 2026-10-16, n=260; multiplicadores calibrados para 80% com a abertura real",
+  "formula": "faixa = [abertura_esperada * (1 - k_inf * amp_prev), abertura_esperada * (1 + k_sup * amp_prev)]",
+  "modelo_amplitude": "HAR+VIX_ols_log",
+  "n_dias": 2649,
+  "calibrado_de": "2014-10-01",
+  "calibrado_ate": "2026-10-16",
+  "cobertura_fora_da_amostra": [
+    {
+      "centro": "abertura real",
+      "periodo": "completo",
+      "n": 2384,
+      "de": "2015-12-01",
+      "ate": "2026-10-16",
+      "cobertura_max_e_min": 0.8091,
+      "cobertura_max": 0.9006,
+      "cobertura_min": 0.9086,
+      "largura_media_pct": 3.4926
+    },
+    {
+      "centro": "abertura real",
+      "periodo": "ultimos_2_anos",
+      "n": 497,
+      "de": "2024-10-17",
+      "ate": "2026-10-16",
+      "cobertura_max_e_min": 0.7767,
+      "cobertura_max": 0.8632,
+      "cobertura_min": 0.9135,
+      "largura_media_pct": 2.8255
+    },
+    {
+      "centro": "abertura esperada (gap)",
+      "periodo": "completo",
+      "n": 260,
+      "de": "2025-10-01",
+      "ate": "2026-10-16",
+      "cobertura_max_e_min": 0.7,
+      "cobertura_max": 0.8154,
+      "cobertura_min": 0.8846,
+      "largura_media_pct": 2.9758
+    },
+    {
+      "centro": "abertura real, mesmo ano do gap",
+      "periodo": "completo",
+      "n": 260,
+      "de": "2025-10-01",
+      "ate": "2026-10-16",
+      "cobertura_max_e_min": 0.7769,
+      "cobertura_max": 0.8654,
+      "cobertura_min": 0.9115,
+      "largura_media_pct": 2.9762
+    }
+  ]
+}

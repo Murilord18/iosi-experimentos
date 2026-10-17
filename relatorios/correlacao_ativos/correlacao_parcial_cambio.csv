@@ -1,0 +1,25 @@
+ativo,transformacao,alvo_bova11,coluna,controle,pearson,p_valor,n,significativo
+USDBRL,var_overnight,gap,var x gap,nenhum (simples),-0.079185,0.079927,490,False
+USDBRL,var_overnight,gap,var x gap,EWZ,-0.007309,0.871929,490,False
+USDBRL,var_overnight,gap,var x gap,EWZ + ES=F + amp_media_22d,-0.005014,0.912121,490,False
+USDBRL,abs_var_overnight,abs_gap,|var| x |gap|,nenhum (simples),0.089853,0.046821,490,False
+USDBRL,abs_var_overnight,abs_gap,|var| x |gap|,EWZ,-0.000935,0.983539,490,False
+USDBRL,abs_var_overnight,abs_gap,|var| x |gap|,EWZ + ES=F + amp_media_22d,-0.006853,0.880097,490,False
+USDBRL,abs_var_overnight,abs_intraday,|var| x |close-open|/open,nenhum (simples),-0.016685,0.712557,490,False
+USDBRL,abs_var_overnight,abs_intraday,|var| x |close-open|/open,EWZ,-0.018988,0.675322,490,False
+USDBRL,abs_var_overnight,abs_intraday,|var| x |close-open|/open,EWZ + ES=F + amp_media_22d,-0.020150,0.657349,490,False
+USDBRL,abs_var_overnight,amplitude,|var| x amplitude,nenhum (simples),0.019875,0.660749,490,False
+USDBRL,abs_var_overnight,amplitude,|var| x amplitude,EWZ,-0.004950,0.913064,490,False
+USDBRL,abs_var_overnight,amplitude,|var| x amplitude,EWZ + ES=F + amp_media_22d,-0.011389,0.802046,490,False
+DXY,var_overnight,gap,var x gap,nenhum (simples),-0.123712,0.006106,490,True
+DXY,var_overnight,gap,var x gap,EWZ,-0.041686,0.357643,490,False
+DXY,var_overnight,gap,var x gap,EWZ + ES=F + amp_media_22d,-0.065747,0.147410,490,False
+DXY,abs_var_overnight,abs_gap,|var| x |gap|,nenhum (simples),0.136406,0.002479,490,True
+DXY,abs_var_overnight,abs_gap,|var| x |gap|,EWZ,0.030813,0.496635,490,False
+DXY,abs_var_overnight,abs_gap,|var| x |gap|,EWZ + ES=F + amp_media_22d,0.034105,0.452707,490,False
+DXY,abs_var_overnight,abs_intraday,|var| x |close-open|/open,nenhum (simples),-0.057123,0.206850,490,False
+DXY,abs_var_overnight,abs_intraday,|var| x |close-open|/open,EWZ,-0.060749,0.179869,490,False
+DXY,abs_var_overnight,abs_intraday,|var| x |close-open|/open,EWZ + ES=F + amp_media_22d,-0.080229,0.076926,490,False
+DXY,abs_var_overnight,amplitude,|var| x amplitude,nenhum (simples),0.016291,0.719049,490,False
+DXY,abs_var_overnight,amplitude,|var| x amplitude,EWZ,-0.014880,0.742748,490,False
+DXY,abs_var_overnight,amplitude,|var| x amplitude,EWZ + ES=F + amp_media_22d,-0.058953,0.194025,490,False

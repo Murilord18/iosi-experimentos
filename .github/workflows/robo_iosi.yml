@@ -1,0 +1,81 @@
+# Robo IOSI: coleta + previsao (manha) e coleta + validacao (noite), seg a sex.
+# Horarios em UTC: 12:17 UTC = 09:17 BRT e 22:00 UTC = 19:00 BRT (o GitHub pode atrasar alguns minutos).
+name: robo_iosi
+
+on:
+  schedule:
+    - cron: '17 12 * * 1-5'   # manha
+    - cron: '0 22 * * 1-5'    # noite
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: 'manha (coleta + previsao) ou noite (coleta + validacao)'
+        required: true
+        default: noite
+        type: choice
+        options: [manha, noite]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: robo_iosi
+  cancel-in-progress: false
+
+jobs:
+  robo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      MODO: ${{ github.event_name == 'workflow_dispatch' && inputs.modo || (github.event.schedule == '17 12 * * 1-5' && 'manha' || 'noite') }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Dependencias
+        run: pip install -r requirements.txt
+
+      - name: Coleta (${{ env.MODO }})
+        id: coleta
+        continue-on-error: true
+        run: python src/coletor_snapshots.py "$MODO"
+
+      # roda mesmo se a coleta falhar: o preditor usa o candle de 1h das 9h e o
+      # validador grava "sem_candle_real"
+      - name: Previsao ou validacao (${{ env.MODO }})
+        id: etapa2
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        run: |
+          if [ "$MODO" = "manha" ]; then
+            python src/predictor_9h15.py
+          else
+            python src/validador_19h.py
+          fi
+
+      - name: Commit e push de data/
+        if: ${{ !cancelled() }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "Nada novo em data/."
+            exit 0
+          fi
+          git commit -m "robô: $(TZ=America/Sao_Paulo date +%Y-%m-%d) $MODO [skip ci]"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Resultado
+        if: ${{ !cancelled() }}
+        run: |
+          echo "coleta: ${{ steps.coleta.outcome }} | previsao/validacao: ${{ steps.etapa2.outcome }}"
+          [ "${{ steps.coleta.outcome }}" = "success" ] && [ "${{ steps.etapa2.outcome }}" = "success" ]

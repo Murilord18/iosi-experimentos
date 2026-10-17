@@ -1,0 +1,17 @@
+ativo,janela,alvo_bova11,pearson,p_valor,spearman,n,limiar_2_raiz_n,significativo
+vix_nivel_t1,~2 anos,abs_intraday,0.122525,0.006617,0.064058,490,0.090351,True
+vix_nivel_t1,~2 anos,amplitude,0.283853,0.000000,0.112386,490,0.090351,True
+amp_media_1d,~2 anos,abs_intraday,0.068393,0.130570,-0.009925,490,0.090351,False
+amp_media_1d,~2 anos,amplitude,0.278517,0.000000,0.174379,490,0.090351,True
+amp_media_5d,~2 anos,abs_intraday,0.062111,0.169844,0.035662,490,0.090351,False
+amp_media_5d,~2 anos,amplitude,0.313106,0.000000,0.293298,490,0.090351,True
+amp_media_22d,~2 anos,abs_intraday,0.052798,0.243383,0.056803,490,0.090351,False
+amp_media_22d,~2 anos,amplitude,0.245377,0.000000,0.276982,490,0.090351,True
+vix_nivel_t1,5 anos,abs_intraday,0.189843,0.000000,0.142170,1245,0.056682,True
+vix_nivel_t1,5 anos,amplitude,0.378544,0.000000,0.355785,1245,0.056682,True
+amp_media_1d,5 anos,abs_intraday,0.141708,0.000001,0.083373,1245,0.056682,True
+amp_media_1d,5 anos,amplitude,0.373190,0.000000,0.326514,1245,0.056682,True
+amp_media_5d,5 anos,abs_intraday,0.211910,0.000000,0.183418,1241,0.056773,True
+amp_media_5d,5 anos,amplitude,0.466071,0.000000,0.480170,1241,0.056773,True
+amp_media_22d,5 anos,abs_intraday,0.214780,0.000000,0.189746,1224,0.057166,True
+amp_media_22d,5 anos,amplitude,0.443974,0.000000,0.470387,1224,0.057166,True
