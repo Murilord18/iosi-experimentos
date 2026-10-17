@@ -1,4 +1,5 @@
 # Robo IOSI: coleta + previsao (manha) e coleta + validacao (noite), seg a sex.
+# Manual com modo = carga_inicial: so envia ao Supabase o que ja esta em data/ (uma vez).
 # Horarios em UTC: 12:17 UTC = 09:17 BRT e 22:00 UTC = 19:00 BRT (o GitHub pode atrasar alguns minutos).
 name: robo_iosi
 
@@ -9,11 +10,11 @@ on:
   workflow_dispatch:
     inputs:
       modo:
-        description: 'manha (coleta + previsao) ou noite (coleta + validacao)'
+        description: 'manha (coleta + previsao), noite (coleta + validacao) ou carga_inicial (data/ -> Supabase)'
         required: true
         default: noite
         type: choice
-        options: [manha, noite]
+        options: [manha, noite, carga_inicial]
 
 permissions:
   contents: write
@@ -28,6 +29,9 @@ jobs:
     timeout-minutes: 30
     env:
       MODO: ${{ github.event_name == 'workflow_dispatch' && inputs.modo || (github.event.schedule == '17 12 * * 1-5' && 'manha' || 'noite') }}
+      # copia no Supabase; sem os secrets o robo so grava os CSVs
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -42,8 +46,13 @@ jobs:
       - name: Dependencias
         run: pip install -r requirements.txt
 
+      - name: Carga inicial no Supabase
+        if: ${{ env.MODO == 'carga_inicial' }}
+        run: python src/carga_inicial_supabase.py
+
       - name: Coleta (${{ env.MODO }})
         id: coleta
+        if: ${{ env.MODO != 'carga_inicial' }}
         continue-on-error: true
         run: python src/coletor_snapshots.py "$MODO"
 
@@ -51,7 +60,7 @@ jobs:
       # validador grava "sem_candle_real"
       - name: Previsao ou validacao (${{ env.MODO }})
         id: etapa2
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && env.MODO != 'carga_inicial' }}
         continue-on-error: true
         run: |
           if [ "$MODO" = "manha" ]; then
@@ -61,7 +70,7 @@ jobs:
           fi
 
       - name: Commit e push de data/
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && env.MODO != 'carga_inicial' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -75,7 +84,7 @@ jobs:
           git push origin "HEAD:${GITHUB_REF_NAME}"
 
       - name: Resultado
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && env.MODO != 'carga_inicial' }}
         run: |
           echo "coleta: ${{ steps.coleta.outcome }} | previsao/validacao: ${{ steps.etapa2.outcome }}"
           [ "${{ steps.coleta.outcome }}" = "success" ] && [ "${{ steps.etapa2.outcome }}" = "success" ]

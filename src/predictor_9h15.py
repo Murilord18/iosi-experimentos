@@ -22,6 +22,8 @@ A direcao do fechamento NAO e prevista (Fase D: nenhum modelo bate o retorno zer
 Saida: data/previsoes/AAAA-MM-DD.json e AAAA-MM-DD_card.txt (nunca sobrescreve; uma
 nova execucao no mesmo dia ganha o sufixo _HHMMSS). Em dia sem pregao na B3, grava
 so o registro "sem_pregao".
+A primeira previsao do dia (AAAA-MM-DD.json, a que o validador usa) tambem vai para a
+tabela previsoes do Supabase, e a execucao e registrada em execucoes (storage_supabase.py).
 
 Uso:
     python src/predictor_9h15.py
@@ -40,6 +42,7 @@ import numpy as np
 import pandas as pd
 
 import dataset_9h15 as ds
+import storage_supabase as sb
 
 logger = logging.getLogger(__name__)
 
@@ -183,6 +186,11 @@ def main() -> int:
     args = parser.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
 
+    with sb.Execucao("manha", "previsao", ativo=not args.simulacao):
+        return gerar(args)
+
+
+def gerar(args) -> int:
     t = pd.Timestamp(args.data) if args.data else ds.HOJE
     destino = pastas(args.simulacao)["previsoes"]
     destino.mkdir(parents=True, exist_ok=True)
@@ -197,6 +205,11 @@ def main() -> int:
     with open(arq.with_name(arq.stem + "_card.txt"), "x", encoding="utf-8") as fh:
         fh.write(previsao["alerta_formatado_telegram"] + "\n")
     logger.info("Previsao salva: %s", arq)
+    if not args.simulacao:
+        if arq.name == f"{t:%Y-%m-%d}.json":
+            sb.upsert_previsao(previsao, arq.name)
+        else:
+            logger.info("Previsao extra do dia (%s): nao enviada ao Supabase", arq.name)
     print(previsao["alerta_formatado_telegram"])
     return 0
 

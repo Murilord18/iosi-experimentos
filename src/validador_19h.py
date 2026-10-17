@@ -15,6 +15,8 @@ e acrescenta uma linha em data/historico_previsoes.csv com:
 O gap real usa o mesmo fechamento anterior da previsao (campo fech_anterior do JSON).
 Se o dia ja estiver no historico, nada e gravado (o historico nunca e reescrito).
 Sem previsao ou sem pregao, grava uma linha com o status correspondente.
+A linha do dia (como esta no CSV) tambem vai para a tabela previsoes do Supabase, e a
+execucao e registrada em execucoes (storage_supabase.py).
 
 Uso:
     python src/validador_19h.py
@@ -30,6 +32,7 @@ from pathlib import Path
 import pandas as pd
 
 import dataset_9h15 as ds
+import storage_supabase as sb
 from predictor_9h15 import pastas
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -113,6 +116,24 @@ def main() -> int:
     args = parser.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
 
+    with sb.Execucao("noite", "validacao", ativo=not args.simulacao) as ex:
+        codigo = conferir(args)
+        if codigo:
+            ex.falha("status sem_candle_real (sem snapshot das 19h com o candle do BOVA11)")
+    return codigo
+
+
+def enviar_supabase(hist: Path, t: pd.Timestamp) -> None:
+    """Manda a linha do dia, como esta no historico, para a tabela previsoes."""
+    try:
+        h = pd.read_csv(hist)
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Supabase: historico nao lido (%s): %s", hist, exc)
+        return
+    sb.upsert_historico(h[h["data"].astype(str) == str(t.date())])
+
+
+def conferir(args) -> int:
     t = pd.Timestamp(args.data) if args.data else ds.HOJE
     p = pastas(args.simulacao)
     linha = validar(t, p["previsoes"], args.snapshots)
@@ -120,11 +141,15 @@ def main() -> int:
     hist = p["historico"]
     if hist.exists() and str(t.date()) in pd.read_csv(hist, usecols=["data"])["data"].astype(str).values:
         logger.warning("%s ja esta no historico (%s); nada gravado", t.date(), hist)
+        if not args.simulacao:
+            enviar_supabase(hist, t)     # reenvio: se o Supabase falhou antes, completa agora
         return 0
     hist.parent.mkdir(parents=True, exist_ok=True)
     novo = pd.DataFrame([linha]).reindex(columns=COLUNAS)
     novo.to_csv(hist, mode="a", header=not hist.exists(), index=False, float_format="%.10f")
     logger.info("Linha gravada em %s (status: %s)", hist, linha["status"])
+    if not args.simulacao:
+        enviar_supabase(hist, t)
     print(pd.Series(linha).to_string())
     # dia sem previsao fica registrado no historico, mas nao e erro de execucao
     return 0 if linha["status"] in ("ok", "sem_pregao", "sem_previsao") else 1

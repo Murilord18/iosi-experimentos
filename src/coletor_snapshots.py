@@ -19,6 +19,8 @@ Modos:
 Saida: data/snapshots/AAAA-MM-DD_9h15.csv e data/snapshots/AAAA-MM-DD_19h.csv, formato
 longo, horarios em BRT. Nenhum arquivo e sobrescrito: se o do dia ja existir, o novo
 ganha o sufixo _HHMMSS. Log acumulado em data/snapshots/coletor.log.
+Depois do CSV, as linhas tambem vao para a tabela snapshots do Supabase (storage_supabase.py),
+e a execucao e registrada em execucoes. Sem Supabase, so o CSV e gravado.
 
 Uso:
     python src/coletor_snapshots.py manha
@@ -35,6 +37,8 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 import yfinance as yf
+
+import storage_supabase as sb
 
 TZ = ZoneInfo("America/Sao_Paulo")
 ALVO = ("BOVA11", "BOVA11.SA")
@@ -61,6 +65,9 @@ def configurar_log(pasta: Path) -> None:
     for h in (logging.StreamHandler(), logging.FileHandler(pasta / "coletor.log", encoding="utf-8")):
         h.setFormatter(fmt)
         logger.addHandler(h)
+        sb.logger.addHandler(h)          # avisos do Supabase tambem no coletor.log
+    sb.logger.setLevel(logging.INFO)
+    sb.logger.propagate = False
 
 
 def baixar(ticker: str, **kwargs) -> pd.DataFrame:
@@ -195,6 +202,16 @@ def main() -> int:
 
     args.saida.mkdir(parents=True, exist_ok=True)
     configurar_log(args.saida)
+    # --saida de teste: nada vai para o Supabase
+    oficial = args.saida.resolve() == SAIDA_PADRAO.resolve()
+    with sb.Execucao(args.modo, "coleta", ativo=oficial) as ex:
+        codigo = coletar(args, oficial)
+        if codigo:
+            ex.falha(f"codigo de saida {codigo} (detalhes no coletor.log)")
+    return codigo
+
+
+def coletar(args, oficial: bool) -> int:
     agora = pd.Timestamp.now(tz=TZ)
     logger.info("Coleta '%s' iniciada em %s", args.modo, agora)
 
@@ -210,6 +227,8 @@ def main() -> int:
         with open(arquivo, "x", newline="", encoding="utf-8") as f:   # "x": nunca sobrescreve
             dados.to_csv(f, index=False, float_format="%.6f")
         logger.info("Salvo: %s (%d linhas)", arquivo, len(dados))
+        if oficial:
+            sb.upsert_snapshots(dados, arquivo.name)
     if falhas:
         logger.error("Falhas: %s", ", ".join(falhas))
         return 1
