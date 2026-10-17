@@ -2,3 +2,8 @@
 2026-10-16 19:00:02,088 [INFO]   BOVA11: 82 candles de 5m no pregao de 2026-10-16
 2026-10-16 19:00:02,353 [INFO]   BOVA11 2026-10-16: O=200.22 H=203.19 L=200.17 C=202.30 (barra diaria)
 2026-10-16 19:00:02,358 [INFO] Salvo: C:\Users\muril\OneDrive\Documentos\Murilo\Documentos\Faculdade\Aulas\Projeto de Pesquisa\IOSI-experimentos\data\snapshots\2026-10-16_19h.csv (83 linhas)
+2026-10-17 02:41:13,804 [INFO] Coleta 'noite' iniciada em 2026-10-16 23:41:13.804252-03:00
+2026-10-17 02:41:14,090 [INFO]   BOVA11: 82 candles de 5m no pregao de 2026-10-16
+2026-10-17 02:41:14,163 [INFO]   BOVA11 2026-10-16: O=200.22 H=203.19 L=200.17 C=202.30 (barra diaria)
+2026-10-17 02:41:14,165 [WARNING] Arquivo do dia ja existe; gravando em 2026-10-16_19h_234113.csv
+2026-10-17 02:41:14,167 [INFO] Salvo: /home/runner/work/iosi-experimentos/iosi-experimentos/data/snapshots/2026-10-16_19h_234113.csv (83 linhas)

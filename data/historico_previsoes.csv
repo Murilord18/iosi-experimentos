@@ -1,0 +1,2 @@
+data,status,validado_em,simulacao,previsao_gerada_em,fonte_gap_card,fonte_candle,fech_anterior,gap_prev_9h,gap_prev_9h15,gap_prev,abertura_prev,amplitude_prev,faixa_inf,faixa_sup,prob_lateral,open,high,low,close,gap_real,amplitude_real,abs_intraday_real,lateral_real,erro_gap_9h,erro_gap_9h15,erro_gap,erro_abertura_rs,erro_amplitude,brier_lateral,max_dentro_faixa,min_dentro_faixa,amplitude_har_5d,erro_amplitude_har_5d,erro_gap_zero,taxa_lateral_252d,brier_lateral_taxa_252d
+2026-10-16,sem_previsao,2026-10-16 23:41:15-0300,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
