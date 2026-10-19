@@ -7,3 +7,14 @@
 2026-10-17 02:41:14,163 [INFO]   BOVA11 2026-10-16: O=200.22 H=203.19 L=200.17 C=202.30 (barra diaria)
 2026-10-17 02:41:14,165 [WARNING] Arquivo do dia ja existe; gravando em 2026-10-16_19h_234113.csv
 2026-10-17 02:41:14,167 [INFO] Salvo: /home/runner/work/iosi-experimentos/iosi-experimentos/data/snapshots/2026-10-16_19h_234113.csv (83 linhas)
+2026-10-19 15:02:32,175 [WARNING] Supabase desativado: SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY ausente (so os CSVs serao gravados)
+2026-10-19 15:02:32,175 [INFO] Coleta 'manha_1030' iniciada em 2026-10-19 12:02:32.175189-03:00
+2026-10-19 15:02:33,893 [INFO]   BOVA11     BOVA11.SA    5 candles de 5m | ultimo fim: 2026-10-19 10:30:00-03:00
+2026-10-19 15:02:34,220 [INFO]   EWZ        EWZ         75 candles de 5m | ultimo fim: 2026-10-19 10:10:00-03:00
+2026-10-19 15:02:34,449 [INFO]   ES_FUT     ES=F       208 candles de 5m | ultimo fim: 2026-10-19 10:30:00-03:00
+2026-10-19 15:02:34,807 [INFO]   VIX        ^VIX        90 candles de 5m | ultimo fim: 2026-10-19 10:30:00-03:00
+2026-10-19 15:02:34,941 [INFO]   BOVA11     BOVA11.SA ultimo fechamento diario: 2026-10-16 = 202.3000
+2026-10-19 15:02:35,058 [INFO]   EWZ        EWZ       ultimo fechamento diario: 2026-10-16 = 41.8300
+2026-10-19 15:02:35,165 [INFO]   ES_FUT     ES=F      ultimo fechamento diario: 2026-10-16 = 7704.2500
+2026-10-19 15:02:35,534 [INFO]   VIX        ^VIX      ultimo fechamento diario: 2026-10-16 = 19.9900
+2026-10-19 15:02:35,537 [INFO] Salvo: /home/runner/work/iosi-experimentos/iosi-experimentos/data/snapshots/2026-10-19_10h30.csv (382 linhas)
