@@ -12,11 +12,15 @@ cliente manda a mesma chave nos cabecalhos apikey e Authorization, aceitos nos d
 
 Tabelas:
     snapshots  -> upsert por (ativo, tipo, inicio)      upsert_snapshots()
-    previsoes  -> upsert por data; previsao das 9h15    upsert_previsao()
-                  e conferencia das 19h na mesma linha   upsert_historico()
+    previsoes  -> upsert por data; previsao do dia      upsert_previsao()
+                  (10h30; antes, 9h15) e conferencia
+                  das 19h na mesma linha                 upsert_historico()
     execucoes  -> uma linha por script rodado            Execucao (with)
 
 Rodar duas vezes nao duplica nada: o upsert atualiza a linha que ja existe.
+
+Colunas das 10h30 (COLUNAS_1030): exigem o supabase/schema.sql atualizado. Se o Supabase
+recusar o envio (schema antigo), a linha e reenviada sem elas, com um aviso no log.
 """
 
 import logging
@@ -44,22 +48,33 @@ COLUNAS_HISTORICO = [
     "open", "high", "low", "close", "gap_real", "amplitude_real", "abs_intraday_real", "lateral_real",
     "erro_gap_9h", "erro_gap_9h15", "erro_gap", "erro_abertura_rs", "erro_amplitude", "brier_lateral", "max_dentro_faixa", "min_dentro_faixa",
     "amplitude_har_5d", "erro_amplitude_har_5d", "erro_gap_zero", "taxa_lateral_252d", "brier_lateral_taxa_252d",
+    # previsao das 10h30 e metricas do resto do dia (depois de 10h30)
+    "previsao_hora", "abertura_real_1030", "preco_1030", "preco_1030_fim", "high_ate_1030", "low_ate_1030",
+    "faixa_cobertura_card", "ret_resto", "abs_ret_resto", "amp_resto", "lateral_resto", "high_resto", "low_resto",
+    "n_candles_resto", "fonte_resto",
 ]
 # campos do JSON da previsao que ja existem no historico com outro nome
 JSON_PARA_COLUNA = {
     "status": "status_previsao", "gerado_em": "previsao_gerada_em", "gap_previsto": "gap_prev",
     "abertura_esperada": "abertura_prev", "amplitude_prevista": "amplitude_prev",
-    "faixa_inferior": "faixa_inf", "faixa_superior": "faixa_sup",
+    "faixa_inferior": "faixa_inf", "faixa_superior": "faixa_sup", "abertura_real": "abertura_real_1030",
 }
 COLUNAS_SO_JSON = [
     "status_previsao", "data_fech_anterior", "fonte_fech_anterior", "amplitude_prevista_rs",
     "faixa_k_inf", "faixa_k_sup", "faixa_cobertura_alvo", "faixa_cobertura_card",
     "baselines", "modelos", "features", "overnight_9h", "overnight_9h15",
     "alerta_formatado_telegram", "arquivo_previsao",
+    "snapshot_1030", "faixa_modelo_inf", "faixa_modelo_sup", "faixa_ajustada", "ret_ate_1030", "amp_ate_1030",
+    "idade_preco_1030_min", "features_1030",
 ]
 COLUNAS_PREVISOES = set(COLUNAS_HISTORICO) | set(COLUNAS_SO_JSON)
-COLUNAS_TIMESTAMP = {"validado_em", "previsao_gerada_em", "coletado_em"}
-COLUNAS_INTEIRAS = {"volume", "lateral_real", "max_dentro_faixa", "min_dentro_faixa"}
+# colunas criadas para a previsao das 10h30 (ALTER TABLE no fim do schema.sql)
+COLUNAS_1030 = set(COLUNAS_HISTORICO[COLUNAS_HISTORICO.index("previsao_hora"):]) \
+    | set(COLUNAS_SO_JSON[COLUNAS_SO_JSON.index("snapshot_1030"):])
+COLUNAS_TIMESTAMP = {"validado_em", "previsao_gerada_em", "coletado_em", "preco_1030_fim"}
+COLUNAS_INTEIRAS = {"volume", "lateral_real", "max_dentro_faixa", "min_dentro_faixa", "lateral_resto",
+                    "n_candles_resto"}
+COLUNAS_BOOLEANAS = {"simulacao", "faixa_ajustada"}
 
 _cliente = None
 _aviso_config_dado = False
@@ -144,7 +159,7 @@ def _linha(registro: dict, colunas, sem_nulos: bool) -> dict:
                 v = _timestamp(v)
             elif k in COLUNAS_INTEIRAS:
                 v = int(v)
-            elif k == "simulacao":
+            elif k in COLUNAS_BOOLEANAS:
                 v = _booleano(v)
         if v is None and sem_nulos:
             continue
@@ -208,13 +223,24 @@ def linha_previsao(p: dict, arquivo: str = None) -> dict:
     return _linha(r, COLUNAS_PREVISOES, sem_nulos=True)
 
 
+def _upsert_previsoes(linhas: list) -> bool:
+    """Upsert em previsoes; se falhar com colunas das 10h30 (schema antigo), reenvia sem elas."""
+    if _upsert("previsoes", linhas, "data"):
+        return True
+    if cliente() is None or not any(COLUNAS_1030 & set(l) for l in linhas):
+        return False
+    logger.warning("Supabase: reenviando previsoes sem as colunas das 10h30 (rode de novo o "
+                   "supabase/schema.sql no SQL Editor para cria-las)")
+    return _upsert("previsoes", [{k: v for k, v in l.items() if k not in COLUNAS_1030} for l in linhas], "data")
+
+
 def upsert_previsao(p: dict, arquivo: str = None) -> bool:
     try:
         linha = linha_previsao(p, arquivo)
     except Exception as exc:  # noqa: BLE001
         logger.warning("Supabase: previsao nao convertida: %s", exc)
         return False
-    return _upsert("previsoes", [linha], "data")
+    return _upsert_previsoes([linha])
 
 
 def upsert_historico(historico: pd.DataFrame) -> bool:
@@ -227,7 +253,7 @@ def upsert_historico(historico: pd.DataFrame) -> bool:
     except Exception as exc:  # noqa: BLE001
         logger.warning("Supabase: historico nao convertido: %s", exc)
         return False
-    return _upsert("previsoes", linhas, "data")
+    return _upsert_previsoes(linhas)
 
 
 # ---------------------------------------------------------------------------
@@ -261,7 +287,17 @@ class Execucao:
         try:
             self.id = sb.table("execucoes").insert(linha).execute().data[0]["id"]
         except Exception as exc:  # noqa: BLE001
-            logger.warning("Supabase: falha ao registrar inicio da execucao: %s", exc)
+            if "_" not in self.tipo:
+                logger.warning("Supabase: falha ao registrar inicio da execucao: %s", exc)
+                return self
+            # schema antigo so aceita tipo manha/noite: registra manha_1030 como manha
+            try:
+                linha["tipo"] = self.tipo.split("_")[0]
+                self.id = sb.table("execucoes").insert(linha).execute().data[0]["id"]
+                logger.warning("Supabase: execucao registrada com tipo '%s' (rode de novo o "
+                               "supabase/schema.sql para aceitar '%s')", linha["tipo"], self.tipo)
+            except Exception as exc2:  # noqa: BLE001
+                logger.warning("Supabase: falha ao registrar inicio da execucao: %s / %s", exc, exc2)
         return self
 
     def __exit__(self, tipo_exc, exc, tb):

@@ -155,3 +155,45 @@ def test_execucao(falso, monkeypatch):
             raise ValueError("quebrou")
     assert falso.chamadas[1][2]["status"] == "falha"
     assert "ValueError: quebrou" in falso.chamadas[1][2]["mensagem_erro"]
+
+
+class ClienteSchemaAntigo(ClienteFalso):
+    """Supabase com o schema anterior: recusa colunas das 10h30 e o tipo manha_1030."""
+
+    def table(self, nome):
+        cliente = self
+
+        class C(Consulta):
+            def _registra(self, op, dados, **kw):
+                linhas = dados if isinstance(dados, list) else [dados]
+                if any(sb.COLUNAS_1030 & set(l) for l in linhas) or any(l.get("tipo") == "manha_1030" for l in linhas):
+                    raise RuntimeError("PGRST204 coluna ou valor desconhecido")
+                return super()._registra(op, dados, **kw)
+        return C(cliente, nome)
+
+
+def test_previsao_1030(falso):
+    p = {"data": "2026-10-19", "status": "ok", "previsao_hora": "10h30", "gerado_em": "2026-10-19 10:31:10-0300",
+         "abertura_real": 200.22, "preco_1030": 202.64, "preco_1030_fim": "2026-10-19 10:30:00-0300",
+         "faixa_ajustada": False, "faixa_inferior": 196.8, "faixa_superior": 203.5,
+         "features_1030": {"amp_ate_1030": 0.013}}
+    assert sb.upsert_previsao(p, "2026-10-19_1030.json")
+    (_, _, (linha,), _), = falso.chamadas
+    assert linha["abertura_real_1030"] == 200.22 and "abertura_real" not in linha
+    assert linha["preco_1030_fim"] == "2026-10-19T10:30:00-03:00"
+    assert linha["faixa_ajustada"] is False and linha["faixa_inf"] == 196.8
+    assert linha["features_1030"] == {"amp_ate_1030": 0.013} and linha["previsao_hora"] == "10h30"
+
+
+def test_schema_antigo_reenvia_sem_colunas_1030(monkeypatch, caplog):
+    c = ClienteSchemaAntigo()
+    monkeypatch.setattr(sb, "_cliente", c)
+    assert sb.upsert_previsao({"data": "2026-10-19", "status": "ok", "preco_1030": 202.64, "faixa_inferior": 196.8})
+    (_, _, (linha,), _), = c.chamadas
+    assert linha == {"data": "2026-10-19", "status_previsao": "ok", "faixa_inf": 196.8}
+    assert "schema.sql" in caplog.text
+
+    c.chamadas.clear()
+    with sb.Execucao("manha_1030", "coleta") as ex:
+        pass
+    assert ex.id == 7 and c.chamadas[0][2]["tipo"] == "manha"

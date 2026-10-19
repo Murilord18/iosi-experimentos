@@ -55,5 +55,41 @@
       "cobertura_min": 0.9115,
       "largura_media_pct": 2.9762
     }
+  ],
+  "cobertura_card_1030": 0.7758,
+  "cobertura_card_1030_origem": "walk-forward, faixa centrada na abertura REAL, maxima e minima do dia dentro, periodo ultimos_2_anos (2024-10-21 a 2026-10-16, n=495); a extensao ate a max/min ja ocorridas as 10h30 so aumenta a cobertura (medida em 59 dias com candles de 5m)",
+  "cobertura_1030": [
+    {
+      "centro": "abertura real",
+      "periodo": "completo",
+      "n": 2384,
+      "de": "2015-12-01",
+      "ate": "2026-10-16",
+      "cobertura_max_e_min": 0.8091,
+      "cobertura_max": 0.9006,
+      "cobertura_min": 0.9086,
+      "largura_media_pct": 3.4926
+    },
+    {
+      "centro": "abertura real",
+      "periodo": "ultimos_2_anos",
+      "n": 495,
+      "de": "2024-10-21",
+      "ate": "2026-10-16",
+      "cobertura_max_e_min": 0.7758,
+      "cobertura_max": 0.8626,
+      "cobertura_min": 0.9131,
+      "largura_media_pct": 2.828
+    },
+    {
+      "centro": "abertura real + max/min ate 10h30",
+      "periodo": "dias com candles de 5m",
+      "n": 59,
+      "de": "2026-07-23",
+      "ate": "2026-10-16",
+      "cobertura_max_e_min": 0.7458,
+      "cobertura_sem_extensao_mesmos_dias": 0.7458,
+      "frac_dias_faixa_ajustada": 0.0
+    }
   ]
 }

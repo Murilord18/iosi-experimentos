@@ -8,15 +8,23 @@ das 9h as 10h fecha depois da abertura da B3). Para ter o preco das 9h15 no long
 prazo e preciso grava-lo todo dia.
 
 Modos:
-    manha (9h15 BRT): candles de 5m com pre-mercado de EWZ, ES=F, ^VIX e BZ=F, desde
+    manha (9h17 BRT): candles de 5m com pre-mercado de EWZ, ES=F, ^VIX e BZ=F, desde
                       as 16h BRT do dia util anterior (cobre o fechamento da B3 em D-1),
                       mais o ultimo fechamento diario (data < hoje) do BOVA11 e desses ativos.
+                      So coleta (historico do pre-mercado); a previsao e a das 10h30.
+    manha_1030 (10h30 BRT, B3 aberta): candles de 5m do BOVA11 do pregao de hoje (10h ate
+                      10h30), de EWZ (com pre-mercado), ES=F e ^VIX desde as 16h BRT do dia
+                      util anterior, mais o ultimo fechamento diario (data < hoje) de todos.
+                      So candles com fim <= 10h30, mesmo se o cron atrasar. Os dados da B3
+                      no Yahoo chegam com ~15 min de atraso: se o candle que termina as 10h30
+                      ainda nao estiver disponivel, o coletor espera (ate 10h30 + ESPERA_MAX_1030).
+                      ES=F e nao o indice a vista: a partir de 01/11 a NYSE abre as 11h30 BRT.
     noite (19h BRT):  candle diario do BOVA11 do dia (open, high, low, close, volume) e os
                       candles de 5m do BOVA11 no pregao do dia.
                       Se o Yahoo nao trouxer a barra diaria de hoje, o candle e montado
                       com os candles de 5m do pregao (coluna "fonte" indica a origem).
 
-Saida: data/snapshots/AAAA-MM-DD_9h15.csv e data/snapshots/AAAA-MM-DD_19h.csv, formato
+Saida: data/snapshots/AAAA-MM-DD_9h15.csv, AAAA-MM-DD_10h30.csv e AAAA-MM-DD_19h.csv, formato
 longo, horarios em BRT. Nenhum arquivo e sobrescrito: se o do dia ja existir, o novo
 ganha o sufixo _HHMMSS. Log acumulado em data/snapshots/coletor.log.
 Depois do CSV, as linhas tambem vao para a tabela snapshots do Supabase (storage_supabase.py),
@@ -24,6 +32,7 @@ e a execucao e registrada em execucoes. Sem Supabase, so o CSV e gravado.
 
 Uso:
     python src/coletor_snapshots.py manha
+    python src/coletor_snapshots.py manha_1030
     python src/coletor_snapshots.py noite
     python src/coletor_snapshots.py manha --saida <pasta>   # teste, fora de data/snapshots
 """
@@ -36,9 +45,11 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import pandas as pd
+import pandas_market_calendars as mcal
 import yfinance as yf
 
 import storage_supabase as sb
+from leitura_1030 import ABERTURA_B3, EXTERNOS, REF_1030
 
 TZ = ZoneInfo("America/Sao_Paulo")
 ALVO = ("BOVA11", "BOVA11.SA")
@@ -52,6 +63,8 @@ INICIO_JANELA = pd.Timedelta(hours=16)      # 16h BRT do dia util anterior
 DURACAO_5M = pd.Timedelta(minutes=5)
 TENTATIVAS = 3
 ESPERA_S = 15
+ESPERA_MAX_1030 = pd.Timedelta(minutes=25)  # espera pelo candle do BOVA11 que termina as 10h30
+INTERVALO_ESPERA_S = 60
 COLUNAS = ["ativo", "ticker", "tipo", "inicio", "fim", "open", "high", "low", "close",
            "volume", "fonte", "coletado_em"]
 
@@ -149,6 +162,65 @@ def coletar_manha(agora: pd.Timestamp) -> tuple[pd.DataFrame, list]:
     return pd.concat(partes, ignore_index=True) if partes else pd.DataFrame(columns=COLUNAS), falhas
 
 
+def bova11_ate_1030(hoje: pd.Timestamp, corte: pd.Timestamp) -> pd.DataFrame:
+    """Candles de 5m do BOVA11 de hoje, de 10h ate o corte (fim <= corte)."""
+    h5 = baixar(ALVO[1], period="5d", interval="5m")
+    if h5.empty:
+        return h5
+    ini = pd.DatetimeIndex(h5.index).tz_convert(TZ)
+    return h5[(ini >= hoje + ABERTURA_B3) & (ini + DURACAO_5M <= corte)]
+
+
+def coletar_manha_1030(agora: pd.Timestamp) -> tuple[pd.DataFrame, list]:
+    hoje = agora.normalize()
+    ref = hoje + REF_1030
+    corte = min(agora, ref)                     # atrasado: so candles com fim <= 10h30
+    inicio_janela = dia_util_anterior(hoje) + INICIO_JANELA
+    partes, falhas = [], []
+    pregao = len(mcal.get_calendar("BVMF").valid_days(hoje.tz_localize(None), hoje.tz_localize(None))) > 0
+
+    ativo, ticker = ALVO
+    h5 = bova11_ate_1030(hoje, corte)
+    # o Yahoo atrasa a B3 em ~15 min: espera o candle que termina as 10h30
+    while (pregao and corte == ref and pd.Timestamp.now(tz=TZ) < ref + ESPERA_MAX_1030
+           and (h5.empty or pd.DatetimeIndex(h5.index).tz_convert(TZ).max() + DURACAO_5M < ref)):
+        ultimo = "nenhum" if h5.empty else pd.DatetimeIndex(h5.index).tz_convert(TZ).max() + DURACAO_5M
+        logger.info("  BOVA11: ultimo candle termina em %s; aguardando o das 10h30...", ultimo)
+        time.sleep(INTERVALO_ESPERA_S)
+        h5 = bova11_ate_1030(hoje, corte)
+    if h5.empty:
+        logger.warning("  BOVA11: sem candles de 5m do pregao de hoje ate %s%s", corte,
+                       "" if pregao else " (sem pregao na B3)")
+        if pregao:
+            falhas.append(ticker + " (5m)")
+    else:
+        partes.append(formatar(h5, ativo, ticker, "5m", DURACAO_5M, "yahoo_5m", agora))
+        ultimo = pd.DatetimeIndex(h5.index).tz_convert(TZ).max() + DURACAO_5M
+        logger.info("  %-10s %-9s %4d candles de 5m | ultimo fim: %s%s", ativo, ticker, len(h5), ultimo,
+                    "" if ultimo >= corte else "  (ATENCAO: antes do corte; atraso do Yahoo)")
+
+    for nome, tk in EXTERNOS.items():
+        e5 = baixar(tk, period="5d", interval="5m", prepost=True)
+        if e5.empty:
+            falhas.append(tk)
+            continue
+        ini = pd.DatetimeIndex(e5.index).tz_convert(TZ)
+        e5 = e5[(ini >= inicio_janela) & (ini + DURACAO_5M <= corte)]
+        partes.append(formatar(e5, nome, tk, "5m", DURACAO_5M, "yahoo_5m_prepost", agora))
+        ultimo = pd.DatetimeIndex(e5.index).tz_convert(TZ).max() + DURACAO_5M if len(e5) else None
+        logger.info("  %-10s %-9s %4d candles de 5m | ultimo fim: %s", nome, tk, len(e5), ultimo)
+
+    for nome, tk in [ALVO, *EXTERNOS.items()]:
+        d = diario_ate_ontem(tk, hoje)
+        if d.empty:
+            falhas.append(tk + " (1d)")
+            continue
+        partes.append(formatar(d.tail(1), nome, tk, "1d", None, "yahoo_1d_ultimo_fechamento", agora))
+        logger.info("  %-10s %-9s ultimo fechamento diario: %s = %.4f", nome, tk, d.index[-1].date(),
+                    d["Close"].iloc[-1])
+    return pd.concat(partes, ignore_index=True) if partes else pd.DataFrame(columns=COLUNAS), falhas
+
+
 def coletar_noite(agora: pd.Timestamp) -> tuple[pd.DataFrame, list]:
     hoje = agora.normalize()
     ativo, ticker = ALVO
@@ -196,7 +268,7 @@ def caminho_livre(pasta: Path, dia: pd.Timestamp, sufixo: str, agora: pd.Timesta
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("modo", choices=["manha", "noite"])
+    parser.add_argument("modo", choices=["manha", "manha_1030", "noite"])
     parser.add_argument("--saida", type=Path, default=SAIDA_PADRAO)
     args = parser.parse_args()
 
@@ -218,6 +290,9 @@ def coletar(args, oficial: bool) -> int:
     if args.modo == "manha":
         dados, falhas = coletar_manha(agora)
         sufixo = "9h15"
+    elif args.modo == "manha_1030":
+        dados, falhas = coletar_manha_1030(agora)
+        sufixo = "10h30"
     else:
         dados, falhas = coletar_noite(agora)
         sufixo = "19h"

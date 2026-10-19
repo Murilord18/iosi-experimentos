@@ -3,7 +3,8 @@ carga_inicial_supabase.py
 =========================
 Projeto IOSI - envia uma vez para o Supabase o que ja existe em data/:
     data/snapshots/*.csv           -> snapshots
-    data/previsoes/AAAA-MM-DD.json -> previsoes (so a primeira previsao de cada dia)
+    data/previsoes/AAAA-MM-DD.json      -> previsoes (so a primeira previsao de cada dia: 9h15
+    data/previsoes/AAAA-MM-DD_1030.json    e 10h30; no mesmo dia, a das 10h30 vai por ultimo)
     data/historico_previsoes.csv   -> previsoes (conferencia das 19h)
 
 Usa os mesmos upserts do robo (storage_supabase.py): rodar de novo nao duplica nada.
@@ -55,7 +56,7 @@ def main() -> int:
         ok &= sb.upsert_snapshots(snaps)
 
     previsoes = sorted(p for p in (DATA / "previsoes").glob("*.json")
-                       if re.fullmatch(r"\d{4}-\d{2}-\d{2}\.json", p.name))
+                       if re.fullmatch(r"\d{4}-\d{2}-\d{2}(_1030)?\.json", p.name))
     logger.info("Previsoes: %d arquivos", len(previsoes))
     for arq in previsoes:
         p = json.loads(arq.read_text(encoding="utf-8"))

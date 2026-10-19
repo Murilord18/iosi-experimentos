@@ -109,7 +109,7 @@ create table if not exists public.previsoes (
 -- ---------------------------------------------------------------------
 create table if not exists public.execucoes (
     id             bigint generated always as identity primary key,
-    tipo           text not null check (tipo in ('manha', 'noite')),
+    tipo           text not null,            -- manha (9h17), manha_1030 ou noite (check abaixo)
     etapa          text not null check (etapa in ('coleta', 'previsao', 'validacao')),
     inicio         timestamptz not null default now(),
     fim            timestamptz,
@@ -176,3 +176,36 @@ drop policy if exists "previsoes: leitura publica" on public.previsoes;
 create policy "previsoes: leitura publica" on public.previsoes
     for select to anon
     using (true);
+
+-- ---------------------------------------------------------------------
+-- Previsao das 10h30 (B3 aberta) e metricas do resto do dia (19/10/2026).
+-- Rodar de novo o arquivo inteiro: ADD COLUMN IF NOT EXISTS nao apaga nada.
+-- Enquanto isto nao for rodado, o robo envia as linhas sem estas colunas.
+-- ---------------------------------------------------------------------
+alter table public.previsoes
+    add column if not exists previsao_hora         text,               -- '10h30' (ou '9h15')
+    add column if not exists abertura_real_1030    double precision,   -- open do 1o candle de 5m
+    add column if not exists preco_1030            double precision,   -- close do ultimo candle com fim <= 10h30
+    add column if not exists preco_1030_fim        timestamptz,
+    add column if not exists high_ate_1030         double precision,
+    add column if not exists low_ate_1030          double precision,
+    add column if not exists ret_ate_1030          double precision,
+    add column if not exists amp_ate_1030          double precision,
+    add column if not exists idade_preco_1030_min  double precision,
+    add column if not exists snapshot_1030         text,
+    add column if not exists faixa_modelo_inf      double precision,   -- faixa antes de incluir max/min ate 10h30
+    add column if not exists faixa_modelo_sup      double precision,
+    add column if not exists faixa_ajustada        boolean,
+    add column if not exists features_1030         jsonb,
+    add column if not exists ret_resto             double precision,   -- close / preco_1030 - 1
+    add column if not exists abs_ret_resto         double precision,
+    add column if not exists amp_resto             double precision,   -- (max - min depois de 10h30) / preco_1030
+    add column if not exists lateral_resto         smallint,           -- |ret_resto| < 1%
+    add column if not exists high_resto            double precision,
+    add column if not exists low_resto             double precision,
+    add column if not exists n_candles_resto       integer,
+    add column if not exists fonte_resto           text;
+
+alter table public.execucoes drop constraint if exists execucoes_tipo_check;
+alter table public.execucoes add constraint execucoes_tipo_check
+    check (tipo in ('manha', 'manha_1030', 'noite'));

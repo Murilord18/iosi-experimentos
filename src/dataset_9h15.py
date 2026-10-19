@@ -68,7 +68,8 @@ OVERNIGHT = {
     "VIX":       "^VIX",
     "BRENT_FUT": "BZ=F",
 }
-HORAS_REF = {"9h": pd.Timedelta(hours=9), "9h15": pd.Timedelta(hours=9, minutes=15)}
+HORAS_REF = {"9h": pd.Timedelta(hours=9), "9h15": pd.Timedelta(hours=9, minutes=15),
+             "10h30": pd.Timedelta(hours=10, minutes=30)}
 JANELAS_HAR = (1, 5, 22)
 LIMIAR_LATERAL = 0.01
 DIAS_1H = 729                           # limite do Yahoo para 1h: 730 dias
