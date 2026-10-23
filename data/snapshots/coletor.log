@@ -131,3 +131,15 @@
 2026-10-23 00:24:57,310 [INFO]   BOVA11: 82 candles de 5m no pregao de 2026-10-22
 2026-10-23 00:24:57,456 [INFO]   BOVA11 2026-10-22: O=202.29 H=203.07 L=199.92 C=200.96 (barra diaria)
 2026-10-23 00:24:57,459 [INFO] Salvo: /home/runner/work/iosi-experimentos/iosi-experimentos/data/snapshots/2026-10-22_19h.csv (83 linhas)
+2026-10-23 17:13:49,189 [WARNING] Supabase desativado: SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY ausente (so os CSVs serao gravados)
+2026-10-23 17:13:49,189 [INFO] Coleta 'manha' iniciada em 2026-10-23 14:13:49.189936-03:00
+2026-10-23 17:13:49,546 [INFO]   EWZ        EWZ     114 candles de 5m | ultimo fim: 2026-10-23 14:10:00-03:00
+2026-10-23 17:13:49,717 [INFO]   ES_FUT     ES=F    252 candles de 5m | ultimo fim: 2026-10-23 14:05:00-03:00
+2026-10-23 17:13:49,904 [INFO]   VIX        ^VIX    132 candles de 5m | ultimo fim: 2026-10-23 14:00:00-03:00
+2026-10-23 17:13:50,079 [INFO]   BRENT_FUT  BZ=F    242 candles de 5m | ultimo fim: 2026-10-23 14:05:00-03:00
+2026-10-23 17:13:50,222 [INFO]   BOVA11     BOVA11.SA ultimo fechamento diario: 2026-10-22 = 200.9600
+2026-10-23 17:13:50,318 [INFO]   EWZ        EWZ       ultimo fechamento diario: 2026-10-22 = 41.8500
+2026-10-23 17:13:50,415 [INFO]   ES_FUT     ES=F      ultimo fechamento diario: 2026-10-22 = 7704.5000
+2026-10-23 17:13:50,556 [INFO]   VIX        ^VIX      ultimo fechamento diario: 2026-10-22 = 19.0300
+2026-10-23 17:13:50,644 [INFO]   BRENT_FUT  BZ=F      ultimo fechamento diario: 2026-10-22 = 113.1700
+2026-10-23 17:13:50,652 [INFO] Salvo: /home/runner/work/iosi-experimentos/iosi-experimentos/data/snapshots/2026-10-23_9h15.csv (745 linhas)
