@@ -52,7 +52,13 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger(__name__)
 
 TZ = ZoneInfo("America/Sao_Paulo")
-HOJE = pd.Timestamp.now(tz=TZ).normalize().tz_localize(None)
+
+
+def hoje() -> pd.Timestamp:
+    """Data de hoje em BRT, calculada na chamada (um processo que fica rodando, como o bot
+    do Telegram, nao pode guardar a data do dia em que importou o modulo)."""
+    return pd.Timestamp.now(tz=TZ).normalize().tz_localize(None)
+
 
 DIARIOS = {
     "BOVA11":    "BOVA11.SA",
@@ -116,13 +122,14 @@ def intradiario_1h(ticker: str, inicio: pd.Timestamp, prepost: bool) -> pd.DataF
 
 def baixar_dados() -> dict:
     """Tudo o que os datasets usam, sem nenhum processamento que dependa da data t."""
-    inicio_1h = HOJE - pd.Timedelta(days=DIAS_1H)
+    ate = hoje()
+    inicio_1h = ate - pd.Timedelta(days=DIAS_1H)
     d = {nome: diario(t) for nome, t in DIARIOS.items()}
     h1 = {"BOVA11": intradiario_1h("BOVA11.SA", inicio_1h, prepost=False)}
     h1.update({nome: intradiario_1h(t, inicio_1h, prepost=True) for nome, t in OVERNIGHT.items()})
-    sessoes = mcal.get_calendar("BVMF").valid_days(d["BOVA11"].index[0], HOJE)
+    sessoes = mcal.get_calendar("BVMF").valid_days(d["BOVA11"].index[0], ate)
     sessoes = pd.DatetimeIndex(sessoes).tz_localize(None).normalize()
-    return {"diario": d, "h1": h1, "sessoes": sessoes, "ate": HOJE, "ref_ate": None,
+    return {"diario": d, "h1": h1, "sessoes": sessoes, "ate": ate, "ref_ate": None,
             "inicio_1h": inicio_1h}
 
 
@@ -291,7 +298,7 @@ def resumo_lateral(df: pd.DataFrame, nome: str) -> None:
     print(f"\n### Proporcao de dias laterais (|close-open|/open < 1%) - {nome}\n")
     print(f"Total: {lat.mean():.1%} de {len(lat)} pregoes ({lat.index[0].date()} a {lat.index[-1].date()})")
     for anos in (10, 5, 2, 1):
-        rec = lat[lat.index > HOJE - pd.DateOffset(years=anos)]
+        rec = lat[lat.index > hoje() - pd.DateOffset(years=anos)]
         print(f"Ultimos {anos:2d} anos: {rec.mean():.1%} (n = {len(rec)})")
     por_ano = lat.groupby(lat.index.year).agg(["mean", "size"])
     print("\nPor ano: " + " | ".join(f"{a}: {m:.0%}" for a, (m, _) in por_ano.iterrows()))

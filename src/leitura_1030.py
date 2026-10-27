@@ -69,10 +69,10 @@ def encerrados(c: pd.DataFrame, ref: pd.Timestamp) -> pd.DataFrame:
 
 
 def pregao_ate(c: pd.DataFrame, t: pd.Timestamp, ref: pd.Timestamp = None) -> pd.DataFrame:
-    """Candles do BOVA11 no pregao t, da abertura (10h) ate a referencia."""
+    """Candles do BOVA11 no pregao t, da abertura (10h) ate a referencia (so com volume > 0)."""
     ref = ref if ref is not None else referencia(t)
     c = encerrados(c, ref)
-    return c[c["inicio"] >= referencia(t, ABERTURA_B3)]
+    return c[(c["inicio"] >= referencia(t, ABERTURA_B3)) & (c["volume"] > 0)]
 
 
 def leitura_bova(c: pd.DataFrame, t: pd.Timestamp, ref: pd.Timestamp = None) -> dict:

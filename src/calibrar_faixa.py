@@ -82,7 +82,7 @@ def cobertura(df: pd.DataFrame, centro: str) -> pd.DataFrame:
 
 def resumo(r: pd.DataFrame, nome: str) -> list:
     linhas = []
-    for periodo, sub in (("completo", r), ("ultimos_2_anos", r[r.index > ds.HOJE - pd.DateOffset(years=2)])):
+    for periodo, sub in (("completo", r), ("ultimos_2_anos", r[r.index > ds.hoje() - pd.DateOffset(years=2)])):
         linhas.append({"centro": nome, "periodo": periodo, "n": len(sub),
                        "de": str(sub.index.min().date()), "ate": str(sub.index.max().date()),
                        "cobertura_max_e_min": sub["ambos_dentro"].mean(),

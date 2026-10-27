@@ -220,7 +220,7 @@ def enviar_supabase(hist: Path, t: pd.Timestamp) -> None:
 
 
 def conferir(args) -> int:
-    t = pd.Timestamp(args.data) if args.data else ds.HOJE
+    t = pd.Timestamp(args.data) if args.data else ds.hoje()
     p = pastas(args.simulacao)
     linha = validar(t, p["previsoes"], args.snapshots)
 

@@ -180,7 +180,7 @@ def main() -> int:
 
 
 def gerar(args) -> int:
-    t = pd.Timestamp(args.data) if args.data else ds.HOJE
+    t = pd.Timestamp(args.data) if args.data else ds.hoje()
     destino = pastas(args.simulacao)["previsoes"]
     destino.mkdir(parents=True, exist_ok=True)
 
