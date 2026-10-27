@@ -70,9 +70,14 @@ def test_barra_reconstruida_marcada(dados):
     """Pregao sem barra diaria (removida aqui de proposito) e montado com os candles de 1h.
 
     Nao depende de uma data real sem barra: o Yahoo pode preencher a lacuna depois
-    (foi o que aconteceu com 15/10/2026).
+    (foi o que aconteceu com 15/10/2026). Usa o pregao recente mais novo com barra diaria
+    limpa: em 26/10/2026 o Yahoo abriu o BOVA11 em R$ 140 (gap de -30%), e a amplitude da
+    barra nao bate com a dos candles de 1h.
     """
-    t = dados["sessoes"][-2]
+    b = dados["diario"]["BOVA11"]
+    gap = b["Open"] / b["Close"].shift(1) - 1
+    limpa = (b["Volume"] > 0) & (b["Open"] > 0) & (gap.abs() < 0.10)
+    t = next(s for s in dados["sessoes"][-2:-12:-1] if s in b.index and limpa.loc[s])
     sem_barra = {**dados, "diario": {**dados["diario"], "BOVA11": dados["diario"]["BOVA11"].drop(t)}}
     vol = ds.montar_vol(sem_barra)
     assert vol.loc[t, "fonte_barra"] == "agregado_1h"
