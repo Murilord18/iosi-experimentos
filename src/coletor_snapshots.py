@@ -8,10 +8,10 @@ das 9h as 10h fecha depois da abertura da B3). Para ter o preco das 9h15 no long
 prazo e preciso grava-lo todo dia.
 
 Modos:
-    manha (9h17 BRT): candles de 5m com pre-mercado de EWZ, ES=F, ^VIX e BZ=F, desde
+    manha (9h10 BRT): candles de 5m com pre-mercado de EWZ, ES=F, ^VIX e BZ=F, desde
                       as 16h BRT do dia util anterior (cobre o fechamento da B3 em D-1),
                       mais o ultimo fechamento diario (data < hoje) do BOVA11 e desses ativos.
-                      So coleta (historico do pre-mercado); a previsao e a das 10h30.
+                      Insumo da previsao da abertura (predictor_9h15.py), que o bot envia as 9h15.
     manha_1030 (10h30 BRT, B3 aberta): candles de 5m do BOVA11 do pregao de hoje (10h ate
                       10h30), de EWZ (com pre-mercado), ES=F e ^VIX desde as 16h BRT do dia
                       util anterior, mais o ultimo fechamento diario (data < hoje) de todos.

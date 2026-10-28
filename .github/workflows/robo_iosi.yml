@@ -1,21 +1,21 @@
 # Robo IOSI, seg a sex:
-#   manha      (09h17 BRT): coleta do pre-mercado + previsao da abertura (predictor_9h15.py)
+#   manha      (09h10 BRT): coleta do pre-mercado + previsao da abertura (predictor_9h15.py)
 #   manha_1030 (10h30 BRT): coleta com a B3 aberta + previsao das 10h30 (predictor_1030.py)
 #   noite      (19h00 BRT): coleta + validacao
 # Manual com modo = carga_inicial: so envia ao Supabase o que ja esta em data/ (uma vez).
-# Horarios em UTC: 12:17 UTC = 09:17 BRT, 13:30 UTC = 10:30 BRT e 22:00 UTC = 19:00 BRT
+# Horarios em UTC: 12:10 UTC = 09:10 BRT, 13:30 UTC = 10:30 BRT e 22:00 UTC = 19:00 BRT
 # (o GitHub pode atrasar alguns minutos; a previsao so usa candles com fim <= 10h30).
 name: robo_iosi
 
 on:
   schedule:
-    - cron: '17 12 * * 1-5'   # manha
+    - cron: '10 12 * * 1-5'   # manha
     - cron: '30 13 * * 1-5'   # manha_1030
     - cron: '0 22 * * 1-5'    # noite
   workflow_dispatch:
     inputs:
       modo:
-        description: 'manha (coleta + previsao da abertura 9h17), manha_1030 (coleta + previsao 10h30), noite (coleta + validacao) ou carga_inicial (data/ -> Supabase)'
+        description: 'manha (coleta + previsao da abertura 9h10), manha_1030 (coleta + previsao 10h30), noite (coleta + validacao) ou carga_inicial (data/ -> Supabase)'
         required: true
         default: noite
         type: choice
@@ -34,7 +34,7 @@ jobs:
     # o coletor das 10h30 pode esperar ate 25 min pelo candle do BOVA11 (atraso do Yahoo)
     timeout-minutes: 45
     env:
-      MODO: ${{ github.event_name == 'workflow_dispatch' && inputs.modo || (github.event.schedule == '17 12 * * 1-5' && 'manha' || (github.event.schedule == '30 13 * * 1-5' && 'manha_1030' || 'noite')) }}
+      MODO: ${{ github.event_name == 'workflow_dispatch' && inputs.modo || (github.event.schedule == '10 12 * * 1-5' && 'manha' || (github.event.schedule == '30 13 * * 1-5' && 'manha_1030' || 'noite')) }}
       # copia no Supabase; sem os secrets o robo so grava os CSVs
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

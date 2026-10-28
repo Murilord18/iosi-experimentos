@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # robo_vm.sh
 # Robo IOSI na VM (Linux), mesmo fluxo do .github/workflows/robo_iosi.yml:
-#   manha      (09h17 BRT): coleta do pre-mercado + previsao da abertura (predictor_9h15.py)
+#   manha      (09h10 BRT): coleta do pre-mercado + previsao da abertura (predictor_9h15.py),
+#                         que o bot envia as 9h15 em ponto
 #   manha_1030 (10h30 BRT): coleta com a B3 aberta + previsao das 10h30 (predictor_1030.py)
 #   noite      (19h00 BRT): coleta + validacao
 # Cada execucao: git pull, coleta, previsao/validacao, commit e push de data/.
@@ -9,8 +10,8 @@
 # fica rodando: a data do dia e calculada na chamada, mas os dados baixados nao).
 #
 # Uso:   scripts/robo_vm.sh manha|manha_1030|noite
-# Cron (VM em UTC; 12:17 UTC = 09:17 BRT, 13:30 UTC = 10:30 BRT, 22:00 UTC = 19:00 BRT):
-#   17 12 * * 1-5  /home/<usuario>/iosi-experimentos/scripts/robo_vm.sh manha
+# Cron (VM em UTC; 12:10 UTC = 09:10 BRT, 13:30 UTC = 10:30 BRT, 22:00 UTC = 19:00 BRT):
+#   10 12 * * 1-5  /home/<usuario>/iosi-experimentos/scripts/robo_vm.sh manha
 #   30 13 * * 1-5  /home/<usuario>/iosi-experimentos/scripts/robo_vm.sh manha_1030
 #   0  22 * * 1-5  /home/<usuario>/iosi-experimentos/scripts/robo_vm.sh noite
 #
