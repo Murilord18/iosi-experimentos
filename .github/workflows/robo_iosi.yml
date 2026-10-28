@@ -1,22 +1,21 @@
 # Robo IOSI, seg a sex:
-#   manha      (09h17 BRT): so coleta (historico do pre-mercado), sem previsao
+#   manha      (09h17 BRT): coleta do pre-mercado + previsao da abertura (predictor_9h15.py)
 #   manha_1030 (10h30 BRT): coleta com a B3 aberta + previsao das 10h30 (predictor_1030.py)
 #   noite      (19h00 BRT): coleta + validacao
 # Manual com modo = carga_inicial: so envia ao Supabase o que ja esta em data/ (uma vez).
 # Horarios em UTC: 12:17 UTC = 09:17 BRT, 13:30 UTC = 10:30 BRT e 22:00 UTC = 19:00 BRT
 # (o GitHub pode atrasar alguns minutos; a previsao so usa candles com fim <= 10h30).
-# O predictor_9h15.py nao roda mais no agendamento (o codigo continua em src/).
 name: robo_iosi
 
 on:
   schedule:
-    - cron: '17 12 * * 1-5'   # manha (so coleta)
+    - cron: '17 12 * * 1-5'   # manha
     - cron: '30 13 * * 1-5'   # manha_1030
     - cron: '0 22 * * 1-5'    # noite
   workflow_dispatch:
     inputs:
       modo:
-        description: 'manha (so coleta 9h17), manha_1030 (coleta + previsao 10h30), noite (coleta + validacao) ou carga_inicial (data/ -> Supabase)'
+        description: 'manha (coleta + previsao da abertura 9h17), manha_1030 (coleta + previsao 10h30), noite (coleta + validacao) ou carga_inicial (data/ -> Supabase)'
         required: true
         default: noite
         type: choice
@@ -64,17 +63,17 @@ jobs:
         run: python src/coletor_snapshots.py "$MODO"
 
       # roda mesmo se a coleta falhar: o preditor busca os candles de 5m no Yahoo (fim <= 10h30)
-      # e o validador grava "sem_candle_real". O modo manha (9h17) nao tem esta etapa.
+      # e o validador grava "sem_candle_real".
       - name: Previsao ou validacao (${{ env.MODO }})
         id: etapa2
-        if: ${{ !cancelled() && (env.MODO == 'manha_1030' || env.MODO == 'noite') }}
+        if: ${{ !cancelled() && env.MODO != 'carga_inicial' }}
         continue-on-error: true
         run: |
-          if [ "$MODO" = "manha_1030" ]; then
-            python src/predictor_1030.py
-          else
-            python src/validador_19h.py
-          fi
+          case "$MODO" in
+            manha)      python src/predictor_9h15.py ;;
+            manha_1030) python src/predictor_1030.py ;;
+            noite)      python src/validador_19h.py ;;
+          esac
 
       - name: Commit e push de data/
         if: ${{ !cancelled() && env.MODO != 'carga_inicial' }}
@@ -95,4 +94,4 @@ jobs:
         run: |
           echo "coleta: ${{ steps.coleta.outcome }} | previsao/validacao: ${{ steps.etapa2.outcome }}"
           [ "${{ steps.coleta.outcome }}" = "success" ] || exit 1
-          [ "$MODO" = "manha" ] || [ "${{ steps.etapa2.outcome }}" = "success" ]
+          [ "${{ steps.etapa2.outcome }}" = "success" ]

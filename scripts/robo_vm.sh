@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # robo_vm.sh
 # Robo IOSI na VM (Linux), mesmo fluxo do .github/workflows/robo_iosi.yml:
-#   manha      (09h17 BRT): so coleta (historico do pre-mercado), sem previsao
+#   manha      (09h17 BRT): coleta do pre-mercado + previsao da abertura (predictor_9h15.py)
 #   manha_1030 (10h30 BRT): coleta com a B3 aberta + previsao das 10h30 (predictor_1030.py)
 #   noite      (19h00 BRT): coleta + validacao
 # Cada execucao: git pull, coleta, previsao/validacao, commit e push de data/.
@@ -50,9 +50,10 @@ git pull --rebase --autostash -q origin main || echo "aviso: git pull falhou; se
 if timeout 40m "$PYTHON" src/coletor_snapshots.py "$MODO"; then coleta=ok; else coleta=falha; fi
 
 # roda mesmo se a coleta falhar: o preditor busca os candles de 5m no Yahoo (fim <= 10h30)
-# e o validador grava "sem_candle_real". O modo manha nao tem esta etapa.
+# e o validador grava "sem_candle_real".
 etapa2=-
 case "$MODO" in
+    manha)      if "$PYTHON" src/predictor_9h15.py; then etapa2=ok; else etapa2=falha; fi ;;
     manha_1030) if "$PYTHON" src/predictor_1030.py; then etapa2=ok; else etapa2=falha; fi ;;
     noite)      if "$PYTHON" src/validador_19h.py;  then etapa2=ok; else etapa2=falha; fi ;;
 esac
