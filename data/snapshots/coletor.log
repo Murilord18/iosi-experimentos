@@ -398,3 +398,8 @@
 2026-10-30 18:43:04,966 [INFO]   VIX        ^VIX      ultimo fechamento diario: 2026-10-29 = 17.2000
 2026-10-30 18:43:04,968 [WARNING] Arquivo do dia ja existe; gravando em 2026-10-30_10h30_154303.csv
 2026-10-30 18:43:04,972 [INFO] Salvo: /home/runner/work/iosi-experimentos/iosi-experimentos/data/snapshots/2026-10-30_10h30_154303.csv (405 linhas)
+2026-10-30 19:00:03,541 [WARNING] Supabase desativado: SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY ausente (so os CSVs serao gravados)
+2026-10-30 19:00:03,541 [INFO] Coleta 'noite' iniciada em 2026-10-30 19:00:03.541461-03:00
+2026-10-30 19:00:05,583 [INFO]   BOVA11: 82 candles de 5m no pregao de 2026-10-30
+2026-10-30 19:00:05,922 [INFO]   BOVA11 2026-10-30: O=164.88 H=166.44 L=164.21 C=165.40 (barra diaria)
+2026-10-30 19:00:05,925 [INFO] Salvo: /home/azureuser/iosi-experimentos/data/snapshots/2026-10-30_19h.csv (83 linhas)
