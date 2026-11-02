@@ -449,3 +449,15 @@
 2026-11-02 19:00:02,684 [INFO] Coleta 'noite' iniciada em 2026-11-02 19:00:02.684258-03:00
 2026-11-02 19:00:05,048 [WARNING]   BOVA11: sem barra diaria nem candles de 5m em 2026-11-02 (sem pregao?)
 2026-11-02 19:00:05,049 [ERROR] Falhas: BOVA11.SA (sem pregao)
+2026-11-02 22:24:44,222 [WARNING] Supabase desativado: SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY ausente (so os CSVs serao gravados)
+2026-11-02 22:24:44,223 [INFO] Coleta 'manha_1030' iniciada em 2026-11-02 19:24:44.223149-03:00
+2026-11-02 22:24:44,752 [WARNING]   BOVA11: sem candles de 5m do pregao de hoje ate 2026-11-02 10:30:00-03:00 (sem pregao na B3)
+2026-11-02 22:24:45,040 [INFO]   EWZ        EWZ         67 candles de 5m | ultimo fim: 2026-11-02 10:30:00-03:00
+2026-11-02 22:24:45,237 [INFO]   ES_FUT     ES=F       197 candles de 5m | ultimo fim: 2026-11-02 10:30:00-03:00
+2026-11-02 22:24:45,392 [INFO]   VIX        ^VIX        78 candles de 5m | ultimo fim: 2026-11-02 10:30:00-03:00
+2026-11-02 22:24:45,470 [INFO]   BOVA11     BOVA11.SA ultimo fechamento diario: 2026-10-30 = 165.4000
+2026-11-02 22:24:45,559 [INFO]   EWZ        EWZ       ultimo fechamento diario: 2026-10-30 = 32.4600
+2026-11-02 22:24:45,642 [INFO]   ES_FUT     ES=F      ultimo fechamento diario: 2026-10-30 = 7614.0000
+2026-11-02 22:24:45,718 [INFO]   VIX        ^VIX      ultimo fechamento diario: 2026-10-30 = 19.4200
+2026-11-02 22:24:45,719 [WARNING] Arquivo do dia ja existe; gravando em 2026-11-02_10h30_192444.csv
+2026-11-02 22:24:45,723 [INFO] Salvo: /home/runner/work/iosi-experimentos/iosi-experimentos/data/snapshots/2026-11-02_10h30_192444.csv (346 linhas)
