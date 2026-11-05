@@ -599,3 +599,9 @@
 2026-11-04 19:00:06,757 [INFO]   BOVA11: 83 candles de 5m no pregao de 2026-11-04
 2026-11-04 19:00:07,117 [INFO]   BOVA11 2026-11-04: O=164.01 H=165.32 L=163.72 C=164.82 (barra diaria)
 2026-11-04 19:00:07,121 [INFO] Salvo: /home/azureuser/iosi-experimentos/data/snapshots/2026-11-04_19h.csv (84 linhas)
+2026-11-05 02:00:12,247 [WARNING] Supabase desativado: SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY ausente (so os CSVs serao gravados)
+2026-11-05 02:00:12,248 [INFO] Coleta 'noite' iniciada em 2026-11-04 23:00:12.247959-03:00
+2026-11-05 02:00:12,796 [INFO]   BOVA11: 83 candles de 5m no pregao de 2026-11-04
+2026-11-05 02:00:12,941 [INFO]   BOVA11 2026-11-04: O=0.00 H=0.00 L=0.00 C=164.82 (barra diaria)
+2026-11-05 02:00:12,942 [WARNING] Arquivo do dia ja existe; gravando em 2026-11-04_19h_230012.csv
+2026-11-05 02:00:12,943 [INFO] Salvo: /home/runner/work/iosi-experimentos/iosi-experimentos/data/snapshots/2026-11-04_19h_230012.csv (84 linhas)
