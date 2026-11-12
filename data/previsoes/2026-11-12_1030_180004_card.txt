@@ -1,0 +1,9 @@
+📊 IOSI | BOVA11 | 12/11/2026 (leitura das 10h30)
+Fech. anterior (11/11): R$ 169,20
+Abertura real: R$ 167,82 (gap -0,82%)
+Preço às 10h25 (último candle até 10h30): R$ 168,16 (+0,20% desde a abertura)
+Máx./mín. até 10h30: R$ 168,23 / R$ 167,38
+Amplitude esperada do dia: 1,69% ≈ R$ 2,83
+Faixa provável até o fechamento (~78% dos dias): R$ 164,59 a R$ 170,85
+Dia lateral (|fech−abert| < 1%): 51% (últimos 252 pregões: 73%)
+⚠️ A direção do fechamento não é prevista.
