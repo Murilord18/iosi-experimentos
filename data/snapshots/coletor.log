@@ -1136,3 +1136,8 @@
 2026-11-16 21:57:32,506 [INFO]   BRENT_FUT  BZ=F      ultimo fechamento diario: 2026-11-13 = 95.8400
 2026-11-16 21:57:32,507 [WARNING] Arquivo do dia ja existe; gravando em 2026-11-16_9h15_185731.csv
 2026-11-16 21:57:32,514 [INFO] Salvo: /home/runner/work/iosi-experimentos/iosi-experimentos/data/snapshots/2026-11-16_9h15_185731.csv (960 linhas)
+2026-11-16 19:00:02,979 [WARNING] Supabase desativado: SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY ausente (so os CSVs serao gravados)
+2026-11-16 19:00:02,979 [INFO] Coleta 'noite' iniciada em 2026-11-16 19:00:02.979280-03:00
+2026-11-16 19:00:04,429 [INFO]   BOVA11: 74 candles de 5m no pregao de 2026-11-16
+2026-11-16 19:00:04,754 [INFO]   BOVA11 2026-11-16: O=168.16 H=169.34 L=165.98 C=166.58 (barra diaria)
+2026-11-16 19:00:04,757 [INFO] Salvo: /home/azureuser/iosi-experimentos/data/snapshots/2026-11-16_19h.csv (75 linhas)
