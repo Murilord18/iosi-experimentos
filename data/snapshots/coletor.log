@@ -1154,3 +1154,7 @@
 2026-11-16 22:58:46,223 [WARNING] Arquivo do dia ja existe; gravando em 2026-11-16_10h30_195845.csv
 2026-11-16 22:58:46,226 [INFO] Salvo: /home/runner/work/iosi-experimentos/iosi-experimentos/data/snapshots/2026-11-16_10h30_195845.csv (369 linhas)
 2026-11-16 22:58:46,233 [ERROR] Falhas: BOVA11.SA (5m)
+2026-11-17 04:20:25,673 [WARNING] Supabase desativado: SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY ausente (so os CSVs serao gravados)
+2026-11-17 04:20:25,674 [INFO] Coleta 'noite' iniciada em 2026-11-17 01:20:25.674036-03:00
+2026-11-17 04:20:26,054 [WARNING]   BOVA11: sem barra diaria nem candles de 5m em 2026-11-17 (sem pregao?)
+2026-11-17 04:20:26,055 [ERROR] Falhas: BOVA11.SA (sem pregao)
