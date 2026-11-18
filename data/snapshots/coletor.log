@@ -1221,3 +1221,7 @@
 2026-11-17 19:00:06,776 [INFO]   BOVA11: 83 candles de 5m no pregao de 2026-11-17
 2026-11-17 19:00:07,411 [INFO]   BOVA11 2026-11-17: O=166.97 H=169.21 L=166.84 C=167.42 (barra diaria)
 2026-11-17 19:00:07,415 [INFO] Salvo: /home/azureuser/iosi-experimentos/data/snapshots/2026-11-17_19h.csv (84 linhas)
+2026-11-18 03:20:37,380 [WARNING] Supabase desativado: SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY ausente (so os CSVs serao gravados)
+2026-11-18 03:20:37,380 [INFO] Coleta 'noite' iniciada em 2026-11-18 00:20:37.380852-03:00
+2026-11-18 03:20:37,684 [WARNING]   BOVA11: sem barra diaria nem candles de 5m em 2026-11-18 (sem pregao?)
+2026-11-18 03:20:37,684 [ERROR] Falhas: BOVA11.SA (sem pregao)
