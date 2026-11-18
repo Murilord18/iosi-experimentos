@@ -1,0 +1,72 @@
+{
+  "data": "2026-11-18",
+  "status": "ok",
+  "gerado_em": "2026-11-18 17:26:54-0300",
+  "fech_anterior": 167.4199981689453,
+  "data_fech_anterior": "2026-11-17",
+  "fonte_fech_anterior": "yahoo_1d",
+  "gap_prev_9h": -0.0014438721042122535,
+  "gap_prev_9h15": -0.003900032177324232,
+  "fonte_gap_card": "snapshot 9h15 (2026-11-18_9h15.csv)",
+  "gap_previsto": -0.003900032177324232,
+  "abertura_esperada": 166.76705478895886,
+  "amplitude_prevista": 0.017089252384747622,
+  "amplitude_prevista_rs": 2.8499242887495524,
+  "faixa_inferior": 163.5111185334983,
+  "faixa_superior": 169.81900823836122,
+  "faixa_k_inf": 1.142464123806305,
+  "faixa_k_sup": 1.070889307989812,
+  "faixa_cobertura_alvo": 0.8,
+  "faixa_cobertura_card": 0.7,
+  "prob_lateral": 0.5078636890065594,
+  "baselines": {
+    "amplitude_har_5d": 0.011977999865900887,
+    "gap_zero": 0.0,
+    "taxa_lateral_252d": 0.7301587301587301
+  },
+  "modelos": {
+    "gap": {
+      "modelo": "ridge_EWZ",
+      "treino_ate": "2026-10-16"
+    },
+    "amplitude": {
+      "modelo": "HAR+VIX_ols_log",
+      "treino_ate": "2026-10-16"
+    },
+    "lateral": {
+      "modelo": "logit_HAR+VIX | movel_5a",
+      "treino_ate": "2026-10-16"
+    }
+  },
+  "features": {
+    "har_1d": 0.014194228655744285,
+    "har_5d": 0.011977999865900887,
+    "har_22d": 0.02644006994082644,
+    "vix_nivel_t1": 25.459999084472656,
+    "abs_ret_bova11_t1": 0.005042600124008478,
+    "abs_ret_sp500_t1": 0.010255395026037006,
+    "taxa_lateral_252d": 0.7301587301587301
+  },
+  "overnight_9h": {
+    "var_on_EWZ": -0.0032237413374583967,
+    "var_on_ES_FUT": 0.004008696833808889,
+    "var_on_VIX": -0.04988211296478706,
+    "var_on_BRENT_FUT": -0.03392737871400553,
+    "idade_EWZ_h": 0.0,
+    "idade_ES_FUT_h": 0.0,
+    "idade_VIX_h": 0.0,
+    "idade_BRENT_FUT_h": 0.0
+  },
+  "overnight_9h15": {
+    "var_on_EWZ": -0.008704061895551285,
+    "idade_EWZ_h": 0.16666666666666666,
+    "var_on_ES_FUT": 0.004008696833808889,
+    "idade_ES_FUT_h": 0.16666666666666666,
+    "var_on_VIX": -0.049882091511472604,
+    "idade_VIX_h": 0.25,
+    "var_on_BRENT_FUT": -0.03446423700305168,
+    "idade_BRENT_FUT_h": 0.16666666666666666
+  },
+  "simulacao": false,
+  "alerta_formatado_telegram": "📊 IOSI | BOVA11 | 18/11/2026 (9h15)\nFech. anterior (17/11): R$ 167,42\nAbertura esperada: R$ 166,77 (gap -0,39%, base EWZ 9h15)\nAmplitude esperada: 1,71% ≈ R$ 2,85\nFaixa provável (~70% dos dias): R$ 163,51 a R$ 169,82\nDia lateral (|fech−abert| < 1%): 51% (últimos 252 pregões: 73%)\n⚠️ A direção do fechamento não é prevista."
+}
