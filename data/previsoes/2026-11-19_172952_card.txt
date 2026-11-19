@@ -1,0 +1,7 @@
+📊 IOSI | BOVA11 | 19/11/2026 (9h15)
+Fech. anterior (18/11): R$ 164,40
+Abertura esperada: R$ 164,72 (gap +0,19%, base EWZ 9h15)
+Amplitude esperada: 1,89% ≈ R$ 3,11
+Faixa provável (~70% dos dias): R$ 161,16 a R$ 168,05
+Dia lateral (|fech−abert| < 1%): 50% (últimos 252 pregões: 73%)
+⚠️ A direção do fechamento não é prevista.
