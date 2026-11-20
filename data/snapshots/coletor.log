@@ -1411,3 +1411,7 @@
 2026-11-20 21:25:50,227 [INFO]   VIX        ^VIX      ultimo fechamento diario: 2026-11-19 = 28.4400
 2026-11-20 21:25:50,228 [WARNING] Arquivo do dia ja existe; gravando em 2026-11-20_10h30_182549.csv
 2026-11-20 21:25:50,231 [INFO] Salvo: /home/runner/work/iosi-experimentos/iosi-experimentos/data/snapshots/2026-11-20_10h30_182549.csv (377 linhas)
+2026-11-20 19:00:03,698 [WARNING] Supabase desativado: SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY ausente (so os CSVs serao gravados)
+2026-11-20 19:00:03,698 [INFO] Coleta 'noite' iniciada em 2026-11-20 19:00:03.698862-03:00
+2026-11-20 19:00:06,751 [WARNING]   BOVA11: sem barra diaria nem candles de 5m em 2026-11-20 (sem pregao?)
+2026-11-20 19:00:06,752 [ERROR] Falhas: BOVA11.SA (sem pregao)
