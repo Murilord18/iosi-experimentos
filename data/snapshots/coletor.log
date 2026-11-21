@@ -1415,3 +1415,7 @@
 2026-11-20 19:00:03,698 [INFO] Coleta 'noite' iniciada em 2026-11-20 19:00:03.698862-03:00
 2026-11-20 19:00:06,751 [WARNING]   BOVA11: sem barra diaria nem candles de 5m em 2026-11-20 (sem pregao?)
 2026-11-20 19:00:06,752 [ERROR] Falhas: BOVA11.SA (sem pregao)
+2026-11-21 02:59:09,150 [WARNING] Supabase desativado: SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY ausente (so os CSVs serao gravados)
+2026-11-21 02:59:09,150 [INFO] Coleta 'noite' iniciada em 2026-11-20 23:59:09.150377-03:00
+2026-11-21 02:59:09,860 [WARNING]   BOVA11: sem barra diaria nem candles de 5m em 2026-11-20 (sem pregao?)
+2026-11-21 02:59:09,860 [ERROR] Falhas: BOVA11.SA (sem pregao)
