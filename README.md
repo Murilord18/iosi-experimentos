@@ -11,7 +11,7 @@
 
 ---
 
-## Resumo para recrutadores
+## Resumo 
 
 | | |
 |---|---|
