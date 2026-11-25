@@ -174,8 +174,4 @@ O modelo de amplitude parte do **HAR de Corsi (2009)**, referência em previsão
 
 ---
 
-## Autor
-
-**Murilo Schittino**: [[LinkedIn](https://www.linkedin.com/in/murilo-schittino/)](#) · [muriloschittino@gmail.com](#) · 
-
 > *Aviso: projeto acadêmico e de portfólio. Nada aqui é recomendação de investimento.*
