@@ -1685,3 +1685,15 @@
 2026-11-27 03:57:06,990 [INFO] Coleta 'noite' iniciada em 2026-11-27 00:57:06.990871-03:00
 2026-11-27 03:57:07,297 [WARNING]   BOVA11: sem barra diaria nem candles de 5m em 2026-11-27 (sem pregao?)
 2026-11-27 03:57:07,297 [ERROR] Falhas: BOVA11.SA (sem pregao)
+2026-11-27 09:10:03,591 [WARNING] Supabase desativado: SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY ausente (so os CSVs serao gravados)
+2026-11-27 09:10:03,591 [INFO] Coleta 'manha' iniciada em 2026-11-27 09:10:03.591131-03:00
+2026-11-27 09:10:04,663 [INFO]   EWZ        EWZ       0 candles de 5m | ultimo fim: None
+2026-11-27 09:10:05,204 [INFO]   ES_FUT     ES=F      0 candles de 5m | ultimo fim: None
+2026-11-27 09:10:05,587 [INFO]   VIX        ^VIX     45 candles de 5m | ultimo fim: 2026-11-27 09:00:00-03:00
+2026-11-27 09:10:06,421 [INFO]   BRENT_FUT  BZ=F      0 candles de 5m | ultimo fim: None
+2026-11-27 09:10:06,779 [INFO]   BOVA11     BOVA11.SA ultimo fechamento diario: 2026-11-26 = 174.4900
+2026-11-27 09:10:07,148 [INFO]   EWZ        EWZ       ultimo fechamento diario: 2026-11-25 = 30.1600
+2026-11-27 09:10:07,505 [INFO]   ES_FUT     ES=F      ultimo fechamento diario: 2026-11-25 = 7195.7500
+2026-11-27 09:10:07,866 [INFO]   VIX        ^VIX      ultimo fechamento diario: 2026-11-26 = 26.8000
+2026-11-27 09:10:08,238 [INFO]   BRENT_FUT  BZ=F      ultimo fechamento diario: 2026-11-25 = 94.6100
+2026-11-27 09:10:08,240 [INFO] Salvo: /home/azureuser/iosi-experimentos/data/snapshots/2026-11-27_9h15.csv (50 linhas)
